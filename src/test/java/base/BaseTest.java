@@ -1,35 +1,32 @@
 package base;
 
 import com.github.javafaker.Faker;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import GUI.pages.LoginPage;
 import GUI.pages.WelcomePage;
+import org.junit.jupiter.api.BeforeAll;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class BaseTest {
-    protected static final String configFilePath = "src/test/resources/configuration.properties";
-    protected static Properties properties = new Properties();
+    protected static final String CONFIG_FILE_PATH = "src/test/resources/configuration.properties";
+    protected static final Properties PROPERTIES = new Properties();
+    protected static final Faker FAKER = new Faker();
+    protected static final String MY_NEW_TABLE =  "MyNewTable";
     protected static String baseUrl;
     protected static String configUserName;
     protected static String apiKey;
     protected static String token;
     protected static String loginEmail;
     protected static String loginPassword;
-    protected static final Faker faker = new Faker();
-    protected static RequestSpecification reqSpec;
-    protected static ResponseSpecification respSpec;
 
-    protected void loginToApp() {
-        WelcomePage welcomePage = page(WelcomePage.class);
-        LoginPage loginPage = page(LoginPage.class);
-        welcomePage.logInButton.click();
-        loginPage.login.setValue(loginEmail);
-        loginPage.loginSubmitButton.click();
-        loginPage.password.setValue(loginPassword);
-        loginPage.loginSubmitButton.click();
+    @BeforeAll
+    protected static void baseSetup() throws IOException {
+        PROPERTIES.load(new FileInputStream(CONFIG_FILE_PATH));
+        baseUrl = PROPERTIES.getProperty("app.url");
+        configUserName = PROPERTIES.getProperty("userName");
     }
 }

@@ -5,4 +5,5 @@ import io.restassured.builder.RequestSpecBuilder;
 
 public abstract class BaseRequest implements ExecutableRequest {
     protected RequestSpecBuilder requestSpecBuilder;
+
 }

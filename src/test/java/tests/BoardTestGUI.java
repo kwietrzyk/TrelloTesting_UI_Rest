@@ -15,32 +15,25 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTestGUI extends BaseTestGUI {
-    MainPage mainpage = page(MainPage.class);
-    NewBoardPage newBoardPage = page(NewBoardPage.class);
-    BoardPage boardPage = page(BoardPage.class);
-    ClosingBoardPage closingBoardPage = page(ClosingBoardPage.class);
-    private final String newBoardName = "MyNewTable";
+
+
+//     This test is not stable. Sometimes it reload pages in unexpected way.
+//     In case of unhandled board deletion it is recommended to do it manually
+//     or by running shouldRemoveAllMyNewTableBoards from BoardTestRest class
+    @Test
+    @DisplayName("TC1: CREATE new board, verify and remove - GUI")
+    @Tag("gui")
+    public void shouldCreateNewBoardAndRemoveIt() {
+        createNewBoard();
+        assertTrue(mainpage.myNewTableBoard.shouldBe(visible).isDisplayed());
+        removeNewBoard();
+        assertFalse(mainpage.myNewTableBoard.exists());
+    }
 
     @Test
-    @DisplayName("TC1: Create new board, verify and remove - GUI")
+    @DisplayName("TC2: UPDATE board with Kitchen Project - GUI")
     @Tag("gui")
-    // This test is behaving different than manual one - refresh loads to newBoard page when it should stay at main
-    public void shouldCreateNewBoardAndRemoveIt() {
+    public void shouldUpdateExistingBoard() {
 
-        mainpage.createNewTableButton.shouldBe(visible).click();
-        newBoardPage.title.setValue(newBoardName);
-        newBoardPage.submit.click();
-        mainpage.allBoards.click();
-        assertTrue(mainpage.myNewTableBoard.shouldBe(visible).isDisplayed());
-        refresh();
-
-        boardPage.settings.shouldBe(visible).click();
-        boardPage.closeBoard.scrollTo().click();
-        closingBoardPage.closingSubmitButton.click();
-        closingBoardPage.deletePermanently.click();
-        closingBoardPage.submitPermanentDelete.click();
-
-        mainpage.allBoards.click();
-        assertFalse(mainpage.myNewTableBoard.exists());
     }
 }

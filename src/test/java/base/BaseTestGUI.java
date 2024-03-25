@@ -1,39 +1,77 @@
 package base;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.http.ContentType;
+import GUI.pages.LoginPage;
+import GUI.pages.MainPage;
+import GUI.pages.WelcomePage;
+import GUI.pages.boardMenu.BoardPage;
+import GUI.pages.boardMenu.ClosingBoardPage;
+import GUI.pages.createNewBoard.NewBoardPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 public class BaseTestGUI extends BaseTest {
 
+    private final WelcomePage welcomePage = page(WelcomePage.class);
+    private final LoginPage loginPage = page(LoginPage.class);
+    protected final MainPage mainpage = page(MainPage.class);
+    protected final NewBoardPage newBoardPage = page(NewBoardPage.class);
+    protected final BoardPage boardPage = page(BoardPage.class);
+    protected final ClosingBoardPage closingBoardPage = page(ClosingBoardPage.class);
+
     @BeforeAll
-    public static void baseSetup() throws IOException {
-        properties.load(new FileInputStream(configFilePath));
-        baseUrl = properties.getProperty("app.url");
-        configUserName = properties.getProperty("userName");
-        loginEmail = properties.getProperty("email");
-        loginPassword = properties.getProperty("password");
+    protected static void setup() {
+        loginEmail = PROPERTIES.getProperty("email");
+        loginPassword = PROPERTIES.getProperty("password");
     }
 
     @BeforeEach
-    public void setup() {
+    protected void goToApp() {
         open(baseUrl);
         loginToApp();
     }
 
     @AfterEach
-    public void clearBrowser() {
+    protected void clearBrowser() {
         clearBrowserCookies();
         clearBrowserLocalStorage();
+    }
+
+    protected void loginToApp() {
+        welcomePage.logInButton.click();
+        setUserEmail();
+        setUserPassword();
+    }
+
+    private void setUserEmail() {
+        loginPage.login.setValue(loginEmail);
+        loginPage.loginSubmitButton.click();
+    }
+
+    private void setUserPassword() {
+        loginPage.password.setValue(loginPassword);
+        loginPage.loginSubmitButton.click();
+    }
+
+    protected void createNewBoard() {
+        mainpage.createNewTableButton.shouldBe(visible).click();
+        newBoardPage.title.setValue(MY_NEW_TABLE);
+        newBoardPage.submit.click();
+        mainpage.allBoards.click();
+    }
+
+    protected void removeNewBoard() {
+        refresh();
+        boardPage.settings.shouldBe(visible).click();
+        boardPage.closeBoard.scrollTo().click();
+        closingBoardPage.closingSubmitButton.click();
+        closingBoardPage.deletePermanently.click();
+        closingBoardPage.submitPermanentDelete.click();
+        mainpage.allBoards.click();
     }
 }

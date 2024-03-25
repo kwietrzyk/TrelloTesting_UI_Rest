@@ -13,6 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <allure.version>2.16.0</allure.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.2</lombok.version>
     </properties>
 
     <dependencies>
@@ -71,6 +72,11 @@
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>7.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
 
