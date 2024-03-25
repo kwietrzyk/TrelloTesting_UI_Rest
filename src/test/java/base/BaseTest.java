@@ -1,15 +1,11 @@
 package base;
 
 import com.github.javafaker.Faker;
-import GUI.pages.LoginPage;
-import GUI.pages.WelcomePage;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-
-import static com.codeborne.selenide.Selenide.*;
 
 public class BaseTest {
     protected static final String CONFIG_FILE_PATH = "src/test/resources/configuration.properties";

@@ -1,16 +1,14 @@
 package base;
 
-import GUI.pages.LoginPage;
-import GUI.pages.MainPage;
-import GUI.pages.WelcomePage;
+import GUI.pages.main.LoginPage;
+import GUI.pages.main.MainPage;
+import GUI.pages.main.WelcomePage;
 import GUI.pages.boardMenu.BoardPage;
 import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.io.IOException;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;

@@ -4,13 +4,8 @@ import base.BaseTestGUI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import GUI.pages.MainPage;
-import GUI.pages.boardMenu.BoardPage;
-import GUI.pages.boardMenu.ClosingBoardPage;
-import GUI.pages.createNewBoard.NewBoardPage;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -1,4 +1,4 @@
-package GUI.pages;
+package GUI.pages.main;
 
 import com.codeborne.selenide.SelenideElement;
 
