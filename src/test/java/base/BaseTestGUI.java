@@ -6,6 +6,8 @@ import GUI.pages.main.WelcomePage;
 import GUI.pages.boardMenu.BoardPage;
 import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
-public class BaseTestGUI extends BaseTest {
-
+public class BaseTestGUI extends BaseTestREST {
     private final WelcomePage welcomePage = page(WelcomePage.class);
     private final LoginPage loginPage = page(LoginPage.class);
     protected final MainPage mainpage = page(MainPage.class);
@@ -23,9 +24,12 @@ public class BaseTestGUI extends BaseTest {
     protected final ClosingBoardPage closingBoardPage = page(ClosingBoardPage.class);
 
     @BeforeAll
-    protected static void setup() {
+    protected static void setupGui() {
         loginEmail = PROPERTIES.getProperty("email");
         loginPassword = PROPERTIES.getProperty("password");
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true));
     }
 
     @BeforeEach
@@ -38,6 +42,7 @@ public class BaseTestGUI extends BaseTest {
     protected void clearBrowser() {
         clearBrowserCookies();
         clearBrowserLocalStorage();
+        closeWindow();
     }
 
     protected void loginToApp() {

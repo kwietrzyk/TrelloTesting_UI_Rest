@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BaseTest {
     protected static final String CONFIG_FILE_PATH = "src/test/resources/configuration.properties";
     protected static final Properties PROPERTIES = new Properties();
@@ -18,6 +21,8 @@ public class BaseTest {
     protected static String token;
     protected static String loginEmail;
     protected static String loginPassword;
+
+    protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeAll
     protected static void baseSetup() throws IOException {
