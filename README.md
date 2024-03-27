@@ -37,3 +37,5 @@
 
 Selenide tests have built-in Allure steps support, but you have to write annotations @Step() manually for REST API test.
 
+![Allure_report](https://github.com/kwietrzyk/TrelloTesting_UI_Rest/assets/25009144/fd012e58-6b86-455c-a1e4-5dae4019ac48)
+
