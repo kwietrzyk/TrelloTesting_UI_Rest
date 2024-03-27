@@ -5,6 +5,7 @@ target/
 
 # ignored files
 configuration.properties
+allure-results/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

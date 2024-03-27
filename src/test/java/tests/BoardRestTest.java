@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BoardTestREST extends BaseTestREST {
+public class BoardRestTest extends BaseTestREST {
 
     private static final String KITCHEN_NAME = "Kitchen building";
     private static final String KITCHEN_ID = "65fbf1f4fe067466eef1f32d";

@@ -21,8 +21,16 @@
   - many built-in functions for WebElement
   - integration with Rest Api tests to speed up repetitive actions like creating/removing board
 
+## How to run tests by Maven
+- your test classes names should match one these patterns: `*Test`, `Test*`
+- all tests should have jUnit annotation `@Test` or `@RepeatedTest`
+- in the terminal run `mvn clean test`
+- if you want to run only tests with specific tag annotation run: `mvn clean test -Dgroups=tag1,tag2,tag3`
+- you can mark every test with several tags and combine your set of running tests:  
+  `mvn clean test -Dgroups=tag1 -DexcludedGroups=tag2`
+
 ## How to generate Allure report:
 - run tests (one, several or all)
-- run "allure serve" in IDE terminal
+- run "**allure serve**" in IDE terminal
 - open report from provided link. It is also saved in your local folder
 

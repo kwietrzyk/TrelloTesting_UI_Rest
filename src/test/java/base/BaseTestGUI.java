@@ -16,8 +16,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 public class BaseTestGUI extends BaseTestREST {
-    private final WelcomePage welcomePage = page(WelcomePage.class);
-    private final LoginPage loginPage = page(LoginPage.class);
+    private final static WelcomePage welcomePage = page(WelcomePage.class);
+    private final static LoginPage loginPage = page(LoginPage.class);
     protected final MainPage mainpage = page(MainPage.class);
     protected final NewBoardPage newBoardPage = page(NewBoardPage.class);
     protected final BoardPage boardPage = page(BoardPage.class);
@@ -30,33 +30,33 @@ public class BaseTestGUI extends BaseTestREST {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
+        goToApp();
     }
 
-    @BeforeEach
-    protected void goToApp() {
+    protected static void goToApp() {
         open(baseUrl);
         loginToApp();
     }
 
-    @AfterEach
-    protected void clearBrowser() {
-        clearBrowserCookies();
-        clearBrowserLocalStorage();
-        closeWindow();
-    }
+//    @AfterEach
+//    protected void clearBrowser() {
+//        clearBrowserCookies();
+//        clearBrowserLocalStorage();
+////        closeWindow();
+//    }
 
-    protected void loginToApp() {
+    protected static void loginToApp() {
         welcomePage.logInButton.click();
         setUserEmail();
         setUserPassword();
     }
 
-    private void setUserEmail() {
+    private static void setUserEmail() {
         loginPage.login.setValue(loginEmail);
         loginPage.loginSubmitButton.click();
     }
 
-    private void setUserPassword() {
+    private static void setUserPassword() {
         loginPage.password.setValue(loginPassword);
         loginPage.loginSubmitButton.click();
     }
