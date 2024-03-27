@@ -14,7 +14,6 @@ public class BaseTest {
     protected static final String CONFIG_FILE_PATH = "src/test/resources/configuration.properties";
     protected static final Properties PROPERTIES = new Properties();
     protected static final Faker FAKER = new Faker();
-    protected static final String MY_NEW_TABLE =  "MyNewTable";
     protected static String baseUrl;
     protected static String configUserName;
     protected static String apiKey;
@@ -29,5 +28,7 @@ public class BaseTest {
         PROPERTIES.load(new FileInputStream(CONFIG_FILE_PATH));
         baseUrl = PROPERTIES.getProperty("app.url");
         configUserName = PROPERTIES.getProperty("userName");
+        apiKey = PROPERTIES.getProperty("app.key");
+        token = PROPERTIES.getProperty("app.token");
     }
 }

@@ -22,7 +22,7 @@ public class BoardGuiTest extends BaseTestGUI {
             removeNewBoard();
         } catch (UIAssertionError e) {
             logger.warn("Failed to remove board");
-            deleteAllMyNewTableBoards();
+            fetchAndDeleteAllBoardsWithName(MY_NEW_TABLE);
         }
         assertFalse(mainpage.myNewTableBoard.exists());
     }

@@ -7,6 +7,7 @@ import GUI.pages.boardMenu.BoardPage;
 import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,6 +25,7 @@ public class BaseTestGUI extends BaseTestREST {
     protected final ClosingBoardPage closingBoardPage = page(ClosingBoardPage.class);
 
     @BeforeAll
+    @Step("Setup GUI")
     protected static void setupGui() {
         loginEmail = PROPERTIES.getProperty("email");
         loginPassword = PROPERTIES.getProperty("password");

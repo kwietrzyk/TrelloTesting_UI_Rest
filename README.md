@@ -8,7 +8,7 @@
 - generate **API key** and **token** for your Trello account [(how-to)](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) **(mandatory)**
 - insert your credentials to **configuration.properties** file (replace 'xxx') **(mandatory)**
 - install **Allure** if you want to get html reports
-- Selenide uses **Google Chrome** by default and this framework is used in this project
+- Selenide uses **Google Chrome** by default and this browser is used in this project
 
 ## What can you learn from this project?
 - Design patterns in real use
@@ -31,6 +31,9 @@
 
 ## How to generate Allure report:
 - run tests (one, several or all)
-- run "**allure serve**" in IDE terminal
-- open report from provided link. It is also saved in your local folder
+- run `mvn allure:serve` in terminal to generate online report
+- run `mvn allure:report` in terminal to generate report in folder
+- open report via link (report is also saved in your local folder)
+
+Selenide tests have built-in Allure steps support, but you have to write annotations @Step() manually for REST API test.
 
