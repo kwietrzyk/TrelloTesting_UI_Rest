@@ -18,7 +18,7 @@
   - no PageFactory action (like @FindBy or WebDriver passing) needed  - auto generated
   - no Allure annotations needed (like @Step with description) - auto generated
   - simple conditions for elements visibility (and other)
-  - many built-in functions for WebElement
+  - many built-in functions for WebElement, also assertions ".should..."
   - integration with Rest Api tests to speed up repetitive actions like creating/removing board
 
 ## How to run tests by Maven

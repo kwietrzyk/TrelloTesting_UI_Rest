@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,14 +18,14 @@ public class BoardGuiTest extends BaseTestGUI {
     @Tag("gui")
     public void shouldCreateNewBoardAndRemoveIt() {
         createNewBoard();
-        assertTrue(mainpage.myNewTableBoard.shouldBe(visible).isDisplayed());
+        mainpage.myNewTableBoard.shouldBe(visible);
         try {
             removeNewBoard();
         } catch (UIAssertionError e) {
             logger.warn("Failed to remove board");
             fetchAndDeleteAllBoardsWithName(MY_NEW_TABLE);
         }
-        assertFalse(mainpage.myNewTableBoard.exists());
+        mainpage.myNewTableBoard.shouldNot(exist);
     }
 
     @Test
