@@ -8,8 +8,11 @@ import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -40,13 +43,6 @@ public class BaseTestGUI extends BaseTestREST {
         loginToApp();
     }
 
-//    @AfterEach
-//    protected void clearBrowser() {
-//        clearBrowserCookies();
-//        clearBrowserLocalStorage();
-////        closeWindow();
-//    }
-
     protected static void loginToApp() {
         welcomePage.logInButton.click();
         setUserEmail();
@@ -63,15 +59,34 @@ public class BaseTestGUI extends BaseTestREST {
         loginPage.loginSubmitButton.click();
     }
 
+    @AfterEach()
+    @Description("Verify if any MyNewTable exists and remove it")
+    protected void cleanMainPage() {
+        mainpage.boards.click();
+        if (mainpage.myNewTableBoard.exists()) {
+            fetchAndDeleteAllBoardsWithName(MY_NEW_TABLE);
+        }
+    }
+
+    @AfterAll
+    protected static void clearBrowser() {
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
+        closeWindow();
+    }
+
     protected void createNewBoard() {
+        mainpage.boards.click();
         mainpage.createNewTableButton.shouldBe(visible).click();
-        newBoardPage.title.setValue(MY_NEW_TABLE);
+        newBoardPage.title.shouldBe(visible).setValue(MY_NEW_TABLE);
         newBoardPage.submit.click();
+        sleep(2000);
         mainpage.allBoards.click();
     }
 
     protected void removeNewBoard() {
         refresh();
+        mainpage.myNewTableBoard.shouldBe(visible).click();
         boardPage.settings.shouldBe(visible).click();
         boardPage.closeBoard.scrollTo().click();
         closingBoardPage.closingSubmitButton.click();
