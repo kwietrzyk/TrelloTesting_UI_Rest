@@ -1,4 +1,4 @@
-package boardDto.nested;
+package dto.boardDto.nested;
 
 public class SwitcherView {
     public String viewType;

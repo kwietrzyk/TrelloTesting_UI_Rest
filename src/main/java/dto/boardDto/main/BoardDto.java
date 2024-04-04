@@ -1,14 +1,13 @@
-package boardDto.main;
+package dto.boardDto.main;
 
-import boardDto.nested.LabelNames;
-import boardDto.nested.Prefs;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import dto.boardDto.nested.LabelNames;
+import dto.boardDto.nested.Prefs;
+import lombok.*;
 
 @Builder
 @Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardDto {
@@ -22,8 +21,8 @@ public class BoardDto {
                 '}';
     }
 
-    public String id;
-    public String name;
+    private String id;
+    private String name;
     public String desc;
     public Object descData;
     public boolean closed;

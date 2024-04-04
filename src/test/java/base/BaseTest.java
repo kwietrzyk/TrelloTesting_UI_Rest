@@ -1,34 +1,33 @@
 package base;
 
+import REST_framework.client.ApiClient;
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.BeforeAll;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import configuration.TestConfiguration;
+import io.qameta.allure.Step;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BaseTest {
-    protected static final String CONFIG_FILE_PATH = "src/test/resources/configuration.properties";
-    protected static final Properties PROPERTIES = new Properties();
-    protected static final Faker FAKER = new Faker();
-    protected static String baseUrl;
-    protected static String configUserName;
-    protected static String apiKey;
-    protected static String token;
-    protected static String loginEmail;
-    protected static String loginPassword;
 
-    protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+    public static final ApiClient API_CLIENT = createApiClient();
+    public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+    public static final String MY_NEW_TABLE =  "MyNewTable";
 
-    @BeforeAll
-    protected static void baseSetup() throws IOException {
-        PROPERTIES.load(new FileInputStream(CONFIG_FILE_PATH));
-        baseUrl = PROPERTIES.getProperty("app.url");
-        configUserName = PROPERTIES.getProperty("userName");
-        apiKey = PROPERTIES.getProperty("app.key");
-        token = PROPERTIES.getProperty("app.token");
+    @Step("Creating API Client")
+    protected static ApiClient createApiClient() {
+        return new ApiClient(() -> new RequestSpecBuilder()
+                .setBaseUri(TestConfiguration.baseUrl)
+                .setContentType(ContentType.JSON)
+                .addQueryParam("key", TestConfiguration.apiKey)
+                .addQueryParam("token", TestConfiguration.token)
+                .log(LogDetail.METHOD));
+//                .addFilter(new RequestLoggingFilter())    // uncomment for extend logs
+//                .addFilter(new ResponseLoggingFilter()));     // uncomment for extend logs
     }
 }

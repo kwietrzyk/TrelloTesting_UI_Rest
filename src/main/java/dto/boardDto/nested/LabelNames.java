@@ -1,4 +1,4 @@
-package boardDto.nested;
+package dto.boardDto.nested;
 
 public class LabelNames {
     public String green;

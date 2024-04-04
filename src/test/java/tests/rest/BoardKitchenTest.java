@@ -1,7 +1,7 @@
-package tests;
+package tests.rest;
 
-import base.BaseTestREST;
-import boardDto.main.BoardDto;
+import base.BaseTest;
+import dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static helpers.RestHelper.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BoardKitchenRestTest extends BaseTestREST {
+public class BoardKitchenTest extends BaseTest {
 
     private static final String KITCHEN_NAME = "Kitchen building";
-    private static String kitchenId;
+    private static String kitchenId; //65fbf1f4fe067466eef1f32d
 
     @BeforeEach
     @Step("Setup Kitchen Project")
@@ -29,8 +29,8 @@ public class BoardKitchenRestTest extends BaseTestREST {
     @DisplayName("GET board and convert it to DTO")
     @Tag("rest")
     public void shouldGetBoardAndCreateDtoObject() {
-        BoardDto boardDto = apiClient.getBoard(kitchenId).execute().then().extract().as(BoardDto.class);
-        assertTrue(boardDto.name.equals(KITCHEN_NAME), "Deserialization failed");
+        BoardDto boardDto = getBoard(kitchenId).then().extract().as(BoardDto.class);
+        assertTrue(boardDto.getName().equals(KITCHEN_NAME), "Deserialization failed");
     }
 
     @Test
@@ -38,8 +38,8 @@ public class BoardKitchenRestTest extends BaseTestREST {
     @Tag("rest")
     public void shouldGetAllListsFromBoardAndSaveToList() {
         int expectedNumberOfLists = 3;
-        List<String> lists = apiClient.getAllListsFromBoard(kitchenId).execute().jsonPath().getList("name");
-        assertTrue(lists.size() == expectedNumberOfLists, "Unexpected number of lists");
+        List<String> listsNames = getAllListsNames(kitchenId);
+        assertTrue(listsNames.size() == expectedNumberOfLists, "Unexpected number of lists");
     }
 
 }

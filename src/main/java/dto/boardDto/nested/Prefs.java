@@ -1,4 +1,7 @@
-package boardDto.nested;
+package dto.boardDto.nested;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 

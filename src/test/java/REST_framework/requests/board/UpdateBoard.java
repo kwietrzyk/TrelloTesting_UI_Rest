@@ -2,17 +2,28 @@ package REST_framework.requests.board;
 
 import REST_framework.client.ExecutableRequest;
 import REST_framework.requests.BaseRequest;
+import dto.boardDto.main.BoardDto;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
+
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class UpdateBoard extends BaseRequest {
 
-    public UpdateBoard(String boardId, Object body, RequestSpecBuilder requestSpecBuilder) {
+    public UpdateBoard(BoardDto body, RequestSpecBuilder requestSpecBuilder) {
+        this.requestSpecBuilder = requestSpecBuilder;
+        this.requestSpecBuilder.addPathParam("boardId", body.getId());
+        this.requestSpecBuilder.setBody(body);
+    }
+
+    public UpdateBoard(String boardId, Map<String, String> query, RequestSpecBuilder requestSpecBuilder) {
         this.requestSpecBuilder = requestSpecBuilder;
         this.requestSpecBuilder.addPathParam("boardId", boardId);
-        this.requestSpecBuilder.setBody(body);
+        for (Map.Entry<String, String> entry : query.entrySet()) {
+            this.requestSpecBuilder.addQueryParam(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override

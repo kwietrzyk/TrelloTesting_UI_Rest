@@ -1,13 +1,12 @@
 package REST_framework.client;
 
-import REST_framework.requests.board.DeleteBoard;
-import REST_framework.requests.board.GetAllListsFromBoard;
-import REST_framework.requests.board.GetBoard;
-import REST_framework.requests.board.PostNewBoard;
+import REST_framework.requests.board.*;
 import REST_framework.requests.member.GetBoardsThatMemberBelongsTo;
+import dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ApiClient {
@@ -32,6 +31,11 @@ public class ApiClient {
         return new PostNewBoard(name, reqSpecBuilder.get());
     }
 
+    @Step("POST board with query map")
+    public PostNewBoard postNewBoard(Map<String, String> queryMap) {
+        return new PostNewBoard(queryMap, reqSpecBuilder.get());
+    }
+
     @Step("Get all lists from board with id {id}")
     public GetAllListsFromBoard getAllListsFromBoard(String id) { return new GetAllListsFromBoard(id, reqSpecBuilder.get()); }
 
@@ -40,4 +44,13 @@ public class ApiClient {
         return new GetBoardsThatMemberBelongsTo(userName, reqSpecBuilder.get());
     }
 
+    @Step("Update board")
+    public UpdateBoard putBoard(BoardDto dto) {
+        return new UpdateBoard(dto, reqSpecBuilder.get());
+    }
+
+    @Step("Update board with id {boardId}")
+    public UpdateBoard putBoard(String boardId, Map<String, String> query) {
+        return new UpdateBoard(boardId, query, reqSpecBuilder.get());
+    }
 }
