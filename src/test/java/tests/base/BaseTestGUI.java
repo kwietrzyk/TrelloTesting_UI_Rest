@@ -1,4 +1,4 @@
-package base;
+package tests.base;
 
 import GUI.pages.boardMenu.BoardSettingsPage;
 import GUI.pages.main.LoginPage;
@@ -15,7 +15,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import helpers.RestHelper;
 import org.junit.jupiter.api.BeforeEach;

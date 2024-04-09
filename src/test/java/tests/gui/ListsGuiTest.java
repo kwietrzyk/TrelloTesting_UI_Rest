@@ -1,6 +1,6 @@
 package tests.gui;
 
-import base.BaseTestGUI;
+import tests.base.BaseTestGUI;
 import com.codeborne.selenide.SelenideElement;
 import enums.BoardLists;
 import io.qameta.allure.Description;

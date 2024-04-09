@@ -2,9 +2,9 @@ package enums;
 
 public enum BoardLists {
 
-    TODO("To do", "Do zrobienia"),
-    ONGOING("Ongoing", "W trakcie"),
-    DONE("Done", "Zrobione"),
+    TODO("To do", "Do zrobienia"),      // default
+    ONGOING("Ongoing", "W trakcie"),    // default
+    DONE("Done", "Zrobione"),           // default
     ONHOLD("On Hold", "Wstrzymane");
 
     private final String englishLabel;

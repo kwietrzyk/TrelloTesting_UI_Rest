@@ -1,13 +1,26 @@
 package dto.listDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-//@Builder
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
+@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ListDto {
+    private String id;
+    private String name;
+    private boolean closed;
+    private String color;
+    private String idBoard;
+    private int pos;
+    private boolean subscribed;
+    private String softLimit;
+
+    @Override
+    public String toString() {
+        return "ListDto{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

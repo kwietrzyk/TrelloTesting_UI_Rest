@@ -1,7 +1,7 @@
 package tests.gui;
 
 import GUI.pages.boardMenu.BackgroundSettingsPage;
-import base.BaseTestGUI;
+import tests.base.BaseTestGUI;
 import enums.BoardBackgroundColors;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;

@@ -1,4 +1,4 @@
-package helpers;
+package factories;
 
 import com.github.javafaker.Faker;
 import enums.BoardBackgroundColors;

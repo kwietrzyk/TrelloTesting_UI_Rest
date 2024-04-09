@@ -1,17 +1,13 @@
 package tests.rest;
 
-import base.BaseTest;
+import tests.base.BaseTest;
 import dto.boardDto.main.BoardDto;
-import helpers.BoardQueryFactory;
-import io.qameta.allure.Step;
-import io.restassured.response.Response;
-import org.assertj.core.api.SoftAssertions;
+import factories.BoardQueryFactory;
 import org.junit.jupiter.api.*;
 
 import java.util.Map;
 
 import static helpers.RestHelper.*;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardRestTest extends BaseTest {
@@ -80,17 +76,5 @@ public class BoardRestTest extends BaseTest {
     public void shouldRemoveAllBoards() {
         deleteAllBoards();
         assertTrue(getAllBoards().isEmpty());
-    }
-
-    @Step("Board attributes verification")
-    private void verifyBoardParamsAreSet(String boardId, Map<String, String> expectedQueryMap) {
-        Response response = getBoard(boardId);
-        response.then().log().body();
-        SoftAssertions softAssert = new SoftAssertions();
-        for (Map.Entry<String, String> query : expectedQueryMap.entrySet()) {
-            String key = query.getKey().replaceAll("[/_]", ".");
-            softAssert.assertThat(response.then().body(key, equalTo(query.getValue())));
-        }
-        softAssert.assertAll();
     }
 }

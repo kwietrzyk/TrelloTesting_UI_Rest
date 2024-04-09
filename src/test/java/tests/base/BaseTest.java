@@ -1,8 +1,8 @@
-package base;
+package tests.base;
 
 import REST_framework.client.ApiClient;
-import com.github.javafaker.Faker;
 import configuration.TestConfiguration;
+import helpers.RestHelper;
 import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -10,6 +10,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 
+import org.junit.jupiter.api.AfterAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,13 @@ public class BaseTest {
                 .setContentType(ContentType.JSON)
                 .addQueryParam("key", TestConfiguration.apiKey)
                 .addQueryParam("token", TestConfiguration.token)
-                .log(LogDetail.METHOD));
-//                .addFilter(new RequestLoggingFilter())    // uncomment for extend logs
-//                .addFilter(new ResponseLoggingFilter()));     // uncomment for extend logs
+                .log(LogDetail.METHOD)
+                .addFilter(new RequestLoggingFilter())    // uncomment for extend logs
+                .addFilter(new ResponseLoggingFilter()));     // uncomment for extend logs
+    }
+
+    @AfterAll
+    public static void clean() {
+        RestHelper.deleteAllBoards();
     }
 }

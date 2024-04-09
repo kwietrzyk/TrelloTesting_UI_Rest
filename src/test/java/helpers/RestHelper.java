@@ -1,9 +1,11 @@
 package helpers;
 
 import REST_framework.client.ApiClient;
-import base.BaseTest;
+import org.assertj.core.api.SoftAssertions;
+import tests.base.BaseTest;
 import configuration.TestConfiguration;
 import dto.boardDto.main.BoardDto;
+import dto.listDto.ListDto;
 import enums.BoardBackgroundColors;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -30,6 +32,11 @@ public class RestHelper {
     @Step("Creating new board with queryMap")
     public static String createNewBoardWithQueryMapAndFetchId(Map<String, String> queryMap) {
         return API_CLIENT.postNewBoard(queryMap).execute().jsonPath().get("id");
+    }
+
+    @Step("Create new list")
+    public static String createNewListAdnFetchId(String name, String boardId) {
+        return API_CLIENT.postNewListToBoard(name, boardId).execute().jsonPath().get("id");
     }
 
     @Step("Get boardDTO for board {boardId}")
@@ -59,6 +66,21 @@ public class RestHelper {
 
     @Step("Get all lists names from board {boardId}")
     public static List<String> getAllListsNames(String boardId) {
+        return getAllListsFromBoard(boardId).jsonPath().getList("name");
+    }
+
+    @Step("Get listDTO for list {listId}")
+    public static ListDto getListDto(String listId) {
+        return getList(listId).then().extract().as(ListDto.class);
+    }
+
+    @Step("Get list {listId}")
+    public static Response getList(String listId) {
+        return API_CLIENT.getList(listId).execute();
+    }
+
+    @Step("Get list of lists from board {boardId}")
+    public static List<String> getAllListsNamesFromBoard(String boardId) {
         return getAllListsFromBoard(boardId).jsonPath().getList("name");
     }
 
@@ -97,8 +119,13 @@ public class RestHelper {
     }
 
     @Step("Delete board {boardId}")
-    public static void deleteBoard(String boardId) {
-        API_CLIENT.deleteBoard(boardId).execute();
+    public static Response deleteBoard(String boardId) {
+        return API_CLIENT.deleteBoard(boardId).execute();
+    }
+
+    @Step("Delete list {listId}")
+    public static Response deleteList(String listId) {
+        return API_CLIENT.deleteList(listId).execute();
     }
 
     @Step("Verification if {boardName} exists")
@@ -122,6 +149,18 @@ public class RestHelper {
         response.then() // .log().body() - uncomment for debugging purpose
                 .body("prefs.background", equalTo(color.getLabel()))
                 .body("prefs.backgroundImage", nullValue());
+    }
+
+    @Step("Board attributes verification")
+    public static void verifyBoardParamsAreSet(String boardId, Map<String, String> expectedQueryMap) {
+        Response response = getBoard(boardId);
+        response.then().log().body();
+        SoftAssertions softAssert = new SoftAssertions();
+        for (Map.Entry<String, String> query : expectedQueryMap.entrySet()) {
+            String key = query.getKey().replaceAll("[/_]", ".");
+            softAssert.assertThat(response.then().body(key, equalTo(query.getValue())));
+        }
+        softAssert.assertAll();
     }
 
     @Step("Getting boards IDs for boards with name {boardName}")
