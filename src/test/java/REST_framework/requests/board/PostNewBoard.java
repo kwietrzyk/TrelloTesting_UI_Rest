@@ -23,7 +23,6 @@ public class PostNewBoard extends BaseRequest {
         for (Map.Entry<String, String> entry : query.entrySet()) {
             this.requestSpecBuilder.addQueryParam(entry.getKey(), entry.getValue());
         }
-        this.requestSpecBuilder.log(LogDetail.ALL);
     }
 
     @Override

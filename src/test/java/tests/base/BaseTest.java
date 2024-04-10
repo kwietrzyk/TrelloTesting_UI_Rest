@@ -11,6 +11,7 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ public class BaseTest {
     public static final ApiClient API_CLIENT = createApiClient();
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     public static final String MY_NEW_TABLE =  "MyNewTable";
+    public static final int DEFAULT_LISTS_AMOUNT = 3;
 
     @Step("Creating API Client")
     protected static ApiClient createApiClient() {
@@ -27,13 +29,14 @@ public class BaseTest {
                 .setContentType(ContentType.JSON)
                 .addQueryParam("key", TestConfiguration.apiKey)
                 .addQueryParam("token", TestConfiguration.token)
-                .log(LogDetail.METHOD)
-                .addFilter(new RequestLoggingFilter())    // uncomment for extend logs
-                .addFilter(new ResponseLoggingFilter()));     // uncomment for extend logs
+                .log(LogDetail.METHOD));
+//                .addFilter(new RequestLoggingFilter())    // uncomment for extend logs
+//                .addFilter(new ResponseLoggingFilter()));     // uncomment for extend logs
     }
 
-    @AfterAll
-    public static void clean() {
+    @AfterEach
+    public void clean() {
+        LOGGER.info("Teardown cleaning");
         RestHelper.deleteAllBoards();
     }
 }

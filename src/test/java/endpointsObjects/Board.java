@@ -1,19 +1,13 @@
-package endpoints;
+package endpointsObjects;
 
 import dto.boardDto.main.BoardDto;
 import dto.listDto.ListDto;
 import helpers.RestHelper;
-import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.assertj.core.api.SoftAssertions;
 
 import java.util.*;
-
-import static helpers.RestHelper.getBoard;
-import static org.hamcrest.Matchers.equalTo;
 
 @Builder
 @Getter
@@ -21,22 +15,18 @@ import static org.hamcrest.Matchers.equalTo;
 public class Board {
 
     private BoardDto boardDto;
-    private List<ListTrello> lists;
+    private final List<ListTrello> lists;
 
-    public void addLists(String... listNames) {
-        for (String name : listNames) {
-            String listId = RestHelper.createNewListAdnFetchId(name, boardDto.getId()); // creates list in app
-            ListDto listDto = RestHelper.getListDto(listId);
-            lists.add(new ListTrello(listDto));
-        }
-    }
-
-    public List<ListTrello> getAllLists() {
-        return List.copyOf(lists);
+    public ListTrello createList(String name) {
+        String listId = RestHelper.createNewListAdnFetchId(name, boardDto.getId()); // creates list in app
+        ListDto listDto = RestHelper.getListDto(listId);
+        ListTrello list = new ListTrello(listDto);
+        lists.add(list);
+        return list;
     }
 
     public void removeAllLists() {
-        lists.forEach(list -> RestHelper.deleteList(list.getDto().getId()));
+        lists.forEach(list -> RestHelper.deleteList(list.getListDto().getId()));
         lists.clear();
     }
 
@@ -44,9 +34,9 @@ public class Board {
         Iterator<ListTrello> iterator = lists.iterator();
         while (iterator.hasNext()) {
             ListTrello list = iterator.next();
-            if (Arrays.asList(listNames).contains(list.getDto().getName())) {
+            if (Arrays.asList(listNames).contains(list.getListDto().getName())) {
                 iterator.remove();
-                RestHelper.deleteList(list.getDto().getId());
+                RestHelper.deleteList(list.getListDto().getId());
             }
         }
     }
@@ -62,7 +52,7 @@ public class Board {
 
     private ListTrello getListByName(String listName) {
         for (ListTrello list : lists) {
-            if (listName.equals(list.getDto().getName())) {
+            if (listName.equals(list.getListDto().getName())) {
                 return list;
             }
         }

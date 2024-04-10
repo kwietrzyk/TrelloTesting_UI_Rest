@@ -1,5 +1,6 @@
 package tests.rest;
 
+import helpers.RestHelper;
 import tests.base.BaseTest;
 import dto.boardDto.main.BoardDto;
 import factories.BoardQueryFactory;
@@ -33,6 +34,19 @@ public class BoardRestTest extends BaseTest {
         String boardId = createNewBoardWithQueryMapAndFetchId(queryMap);
         verifyBoardParamsAreSet(boardId, queryMap);
         deleteBoard(boardId);
+    }
+
+    @Test
+    @DisplayName("Add max amount of boards (10)")
+    @Tag("rest")
+    public void shouldAddMaxAmountOfBoards() {
+        final int amountOfBoards = 10;
+        for (int i = 0; i < amountOfBoards; i++) {
+            Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
+            String boardId = createNewBoardWithQueryMapAndFetchId(queryMap);
+            verifyBoardParamsAreSet(boardId, queryMap);
+        }
+        assertEquals(amountOfBoards, RestHelper.getAllBoardsIds().size());
     }
 
     @Test

@@ -128,6 +128,11 @@ public class RestHelper {
         return API_CLIENT.deleteList(listId).execute();
     }
 
+    @Step("Move list {listId} to board {dstBoardId}")
+    public static Response moveList(String listId, String dstBoardId) {
+        return API_CLIENT.moveList(listId, dstBoardId).execute();
+    }
+
     @Step("Verification if {boardName} exists")
     public static boolean isBoardExisting(String boardName) {
         Response response =API_CLIENT.getAllBoards(USERNAME).execute();
@@ -154,7 +159,6 @@ public class RestHelper {
     @Step("Board attributes verification")
     public static void verifyBoardParamsAreSet(String boardId, Map<String, String> expectedQueryMap) {
         Response response = getBoard(boardId);
-        response.then().log().body();
         SoftAssertions softAssert = new SoftAssertions();
         for (Map.Entry<String, String> query : expectedQueryMap.entrySet()) {
             String key = query.getKey().replaceAll("[/_]", ".");

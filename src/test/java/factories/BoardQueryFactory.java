@@ -36,6 +36,16 @@ public class BoardQueryFactory {
         return boardQueryParams;
     }
 
+    public static Map<String, String> createPostQueryMap(String boardName) {
+        setBasicFields();
+        boardQueryParams.put(BoardQuery.NAME.getParam(), boardName);
+        boardQueryParams = boardQueryParams.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().replace("/", "_"),
+                        Map.Entry::getValue));
+        return boardQueryParams;
+    }
+
     private static void setBasicFields() {
         boardQueryParams.clear();
         boardQueryParams.put(BoardQuery.NAME.getParam(), FAKER.artist().name());

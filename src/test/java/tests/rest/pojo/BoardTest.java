@@ -1,6 +1,6 @@
 package tests.rest.pojo;
 
-import endpoints.Board;
+import endpointsObjects.Board;
 import factories.BoardFactory;
 import enums.BoardLists;
 import factories.BoardQueryFactory;
@@ -36,7 +36,7 @@ public class BoardTest extends BaseTest {
     public void shouldRemoveSingleListFromBoard() {
         Board board = BoardFactory.createBoard();
         board.removeLists(BoardLists.TODO.getPolishLabel());
-        assertEquals(2, RestHelper.getAllListsNamesFromBoard(board.getBoardDto().getId()).size());
+        assertEquals(DEFAULT_LISTS_AMOUNT - 1, RestHelper.getAllListsNamesFromBoard(board.getBoardDto().getId()).size());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class BoardTest extends BaseTest {
     public void shouldAddNewList() {
         Board board = BoardFactory.createBoard();
         String newListName = BoardLists.ONHOLD.getPolishLabel();
-        board.addLists(newListName);
+        board.createList(newListName);
         assertTrue(RestHelper.getAllListsNamesFromBoard(board.getBoardDto().getId()).contains(newListName));
     }
 
