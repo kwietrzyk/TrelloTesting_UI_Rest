@@ -18,7 +18,7 @@ public class BoardGuiTest extends BaseTestGUI {
     private final BackgroundSettingsPage backgroundSettingsPage = page(BackgroundSettingsPage.class);
 
     @Test
-    @DisplayName("TC1: Create new board, verify and remove - GUI")
+    @DisplayName("TC: Create new board, verify and remove - GUI")
     @Tag("gui")
     public void shouldCreateNewBoardAndRemoveIt() {
         createNewBoard();
@@ -28,7 +28,7 @@ public class BoardGuiTest extends BaseTestGUI {
     }
 
     @Test
-    @DisplayName("TC2: Change board name")
+    @DisplayName("TC: Change board name")
     @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
     @Tag("gui")
     public void shouldChangeBoardName() {
@@ -40,7 +40,7 @@ public class BoardGuiTest extends BaseTestGUI {
     }
 
     @Test
-    @DisplayName("TC3: Update board background")
+    @DisplayName("TC: Update board background")
     @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
     @Tag("gui")
     public void shouldUpdateBoardBackground() {

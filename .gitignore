@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 # ignored files
-**/configuration.properties
+# **/configuration.properties
 /allure/
 
 ### IntelliJ IDEA ###

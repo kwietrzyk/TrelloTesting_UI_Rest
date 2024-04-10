@@ -28,7 +28,7 @@ public class ListsGuiTest extends BaseTestGUI {
     }
 
     @Test
-    @DisplayName("TC4: Update lists names")
+    @DisplayName("TC: Update lists names")
     @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
     @Tag("gui")
     @Tag("list")
@@ -39,7 +39,7 @@ public class ListsGuiTest extends BaseTestGUI {
     }
 
     @Test
-    @DisplayName("TC5: Update lists content")
+    @DisplayName("TC: Update lists content")
     @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
     @Tag("gui")
     @Tag("list")

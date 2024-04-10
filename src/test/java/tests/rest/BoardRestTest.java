@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardRestTest extends BaseTest {
 
     @Test
-    @DisplayName("TC: CREATE new board by Name, verify and remove")
+    @DisplayName("TC: Create new board by Name, verify and remove")
     @Tag("rest")
     public void shouldCreateNewBoardAndRemoveItByRestApi() {
         int initialBoardsAmount = getAmountOfCurrentBoards();
@@ -27,7 +27,7 @@ public class BoardRestTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TC: CREATE new board by queryMap, verify and remove")
+    @DisplayName("TC: Create new board by queryMap, verify and remove")
     @Tag("rest")
     public void shouldCreateNewBoardByQueryMap() {
         Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
@@ -37,9 +37,9 @@ public class BoardRestTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Add max amount of boards (10)")
+    @DisplayName("Create max amount of boards (10)")
     @Tag("rest")
-    public void shouldAddMaxAmountOfBoards() {
+    public void shouldCreateMaxAmountOfBoards() {
         final int amountOfBoards = 10;
         for (int i = 0; i < amountOfBoards; i++) {
             Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
@@ -50,7 +50,7 @@ public class BoardRestTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TC: UPDATE board name with passing DTO")
+    @DisplayName("TC: Update board name with passing DTO")
     @Tag("rest")
     public void shouldChangeBoardName() {
         String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
@@ -63,7 +63,7 @@ public class BoardRestTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TC: UPDATE board with query params map")
+    @DisplayName("TC: Update board with query params map")
     @Tag("rest")
     public void shouldUpdateBoardWithQuery() {
         String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
@@ -71,16 +71,6 @@ public class BoardRestTest extends BaseTest {
         updateBoard(boardId, queryMap);
         verifyBoardParamsAreSet(boardId, queryMap);
         deleteBoard(boardId);
-    }
-
-    @Test
-    @Disabled("Test can be run to clean unhandled MY_NEW_TABLE boards")
-    @DisplayName("DELETE all MyNewTable boards")
-    @Tag("rest")
-    public void shouldRemoveAllMyNewTableBoards() {
-        String tableToDelete = MY_NEW_TABLE;
-        deleteAllBoardsWithName(tableToDelete);
-        assertFalse(isBoardExisting(tableToDelete), tableToDelete + " is not removed");
     }
 
     @Test
