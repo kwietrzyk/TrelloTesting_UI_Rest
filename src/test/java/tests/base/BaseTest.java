@@ -19,7 +19,6 @@ public class BaseTest {
 
     public static final ApiClient API_CLIENT = createApiClient();
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
-    public static final String MY_NEW_TABLE =  "MyNewTable";
     public static final int DEFAULT_LISTS_AMOUNT = 3;
 
     @Step("Creating API Client")

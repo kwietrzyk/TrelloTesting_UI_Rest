@@ -1,6 +1,9 @@
 package tests.gui;
 
 import GUI.pages.boardMenu.BackgroundSettingsPage;
+import factories.BoardFactory;
+import helpers.RestHelper;
+import net.bytebuddy.utility.RandomString;
 import tests.base.BaseTestGUI;
 import enums.BoardBackgroundColors;
 import io.qameta.allure.Description;
@@ -18,103 +21,80 @@ public class BoardGuiTest extends BaseTestGUI {
     private final BackgroundSettingsPage backgroundSettingsPage = page(BackgroundSettingsPage.class);
 
     @Test
-    @DisplayName("TC: Create new board, verify and remove - GUI")
+    @DisplayName("TC: Create new board")
     @Tag("gui")
-    public void shouldCreateNewBoardAndRemoveIt() {
-        createNewBoard();
-        mainpage.myNewTableBoard.shouldBe(visible);
-        removeNewBoard();
-        mainpage.myNewTableBoard.shouldNot(exist);
+    public void shouldCreateNewBoard() {
+        String newBoardName = RandomString.make();
+        mainpage.createNewBoard()
+                .withName(newBoardName)
+                .submit()
+                .goToMainPage()
+                .findBoardWithName(newBoardName)
+                .shouldBe(visible);
+    }
+
+    @Test
+    @DisplayName("TC: Remove existing board")
+    @Description("Precondition prepared by REST request (creating board)")
+    @Tag("gui")
+    public void shouldRemoveExistingBoard() {
+        String boardName = RandomString.make();
+        BoardFactory.createBoard(boardName);
+        refresh();
+        mainpage.openBoard(boardName)
+                .openBoardSettings()
+                .closeBoard()
+                .deletePermanently()
+                .goToMainPage()
+                .findBoardWithName(boardName)
+                .shouldNot(exist);
     }
 
     @Test
     @DisplayName("TC: Change board name")
-    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
+    @Description("Precondition prepared by REST request (creating board)")
     @Tag("gui")
     public void shouldChangeBoardName() {
-        String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
-        String boardNewName = "New Name";
-        changeBoardName(boardNewName);
-        assertTrue(isBoardExisting(boardNewName), "Board " + boardNewName + " doest not exist");
-        deleteBoard(boardId);
+        String oldName = RandomString.make();
+        BoardFactory.createBoard(oldName);
+        refresh();
+        String newName = "New Name";
+        mainpage.openBoard(oldName)
+                .changeName()
+                .withValue(newName)
+                .goToMainPage()
+                .findBoardWithName(newName)
+                .shouldBe(visible);
     }
 
     @Test
-    @DisplayName("TC: Update board background")
-    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
+    @DisplayName("TC: Update board background to image")
+    @Description("Board is created and verified by REST request")
     @Tag("gui")
-    public void shouldUpdateBoardBackground() {
-        String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
-        setBackgroundAsPhoto();
+    public void shouldUpdateBoardBackgroundToImage() {
+        String boardName = RandomString.make();
+        String boardId = createNewBoardAndFetchId(boardName);
+        mainpage.openBoard(boardName)
+                .openBoardSettings()
+                .changeBackground()
+                .toImage()
+                .closeBackgroundSettingPage();
         verifyImageIsSetAsBackground(boardId);
+    }
 
+    @Test
+    @DisplayName("TC: Update board background to color")
+    @Description("Board is created and verified by REST request")
+    @Tag("gui")
+    public void shouldUpdateBoardBackgroundToColor() {
+        String boardName = RandomString.make();
+        String boardId = createNewBoardAndFetchId(boardName);
         BoardBackgroundColors backgroundColor = BoardBackgroundColors.getRandom();
-        setBackgroundAsColor(backgroundColor);
+        mainpage.openBoard(boardName)
+                .openBoardSettings()
+                .changeBackground()
+                .toColor(backgroundColor)
+                .closeBackgroundSettingPage();
         verifyColorIsSetAsBackground(boardId, backgroundColor);
-        deleteBoard(boardId);
-    }
-
-    @Step("Create new board")
-    private void createNewBoard() {
-        mainpage.goToMainPage.click();
-        mainpage.createNewTableButton.shouldBe(visible).click();
-        newBoardPage.title.shouldBe(visible).setValue(MY_NEW_TABLE);
-        newBoardPage.submit.click();
-        sleep(2000);
-        mainpage.goToMainPage.click();
-    }
-
-    @Step("Remove board")
-    private void removeNewBoard() {
-        mainpage.goToMainPage.click();
-        mainpage.myNewTableBoard.shouldBe(visible).click();
-        boardPage.settings.shouldBe(visible).click();
-        boardSettingsPage.closeBoard.scrollTo().click();
-        closingBoardPage.closingSubmitButton.click();
-        closingBoardPage.deletePermanently.click();
-        closingBoardPage.submitPermanentDelete.click();
-        mainpage.goToMainPage.click();
-    }
-
-    @Step("Change board name to {boardNewName}")
-    private void changeBoardName(String boardNewName) {
-        refresh();
-        mainpage.myNewTableBoard.shouldBe(visible).click();
-        boardPage.nameDisplay.shouldBe(editable).click();
-        executeJavaScript(String.format("arguments[0].value = '';", boardNewName), boardPage.nameInput);
-        boardPage.nameInput.setValue(boardNewName);
-        mainpage.goToMainPage.click();
-        $(byText(boardNewName)).shouldBe(visible);
-    }
-
-    @Step("Set background as photo")
-    private void setBackgroundAsPhoto() {
-        goToBackgroundMenu();
-        backgroundSettingsPage.photos.shouldBe(visible).click();
-        backgroundSettingsPage.backgroundBox.scrollTo().click();
-        closeBackgroundSettingPage();
-    }
-
-    @Step("Set background as color {color}")
-    private void setBackgroundAsColor(BoardBackgroundColors color) {
-        goToBackgroundMenu();
-        backgroundSettingsPage.colors.shouldBe(visible).click();
-        backgroundSettingsPage.chooseColorElement(color).click();
-        closeBackgroundSettingPage();
-    }
-
-    @Step("Go to main page")
-    private void goToBackgroundMenu() {
-        refresh();
-        mainpage.goToMainPage.shouldBe(visible).click();
-        mainpage.myNewTableBoard.shouldBe(visible).click();
-        boardPage.settings.shouldBe(visible).click();
-        boardSettingsPage.changeBackground.shouldBe(visible).click();
-    }
-
-    private void closeBackgroundSettingPage() {
-        backgroundSettingsPage.photoMenuClosingButton.shouldBe(visible).click();
-        refresh();
-        sleep(1500);
     }
 }

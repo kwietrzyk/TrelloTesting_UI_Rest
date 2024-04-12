@@ -1,4 +1,4 @@
-package GUI.pages.main;
+package GUI.pages.preconditions;
 
 import com.codeborne.selenide.SelenideElement;
 

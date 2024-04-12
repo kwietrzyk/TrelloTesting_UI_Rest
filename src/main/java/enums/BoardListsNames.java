@@ -1,5 +1,8 @@
 package enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum BoardListsNames {
 
     TODO("To do", "Do zrobienia"),      // default
@@ -23,4 +26,7 @@ public enum BoardListsNames {
         return polishLabel;
     }
 
+    public static List<BoardListsNames> getDefaultNames() {
+        return Arrays.asList(values()).subList(0, 3);
+    }
 }

@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ListTest extends BaseTest {
 
+    // In this class actions are done on endpoint objects and verification is done by static methods from RestHelper
+
     @Test
     @DisplayName("Move list to another board")
     @Tag("rest")

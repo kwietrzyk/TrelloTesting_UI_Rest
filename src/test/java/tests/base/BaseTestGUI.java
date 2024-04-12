@@ -1,9 +1,9 @@
 package tests.base;
 
 import GUI.pages.boardMenu.BoardSettingsPage;
-import GUI.pages.main.LoginPage;
+import GUI.pages.preconditions.LoginPage;
 import GUI.pages.main.MainPage;
-import GUI.pages.main.WelcomePage;
+import GUI.pages.preconditions.WelcomePage;
 import GUI.pages.boardMenu.BoardPage;
 import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
@@ -25,10 +25,7 @@ public class BaseTestGUI extends BaseTest {
     private final static WelcomePage welcomePage = page(WelcomePage.class);
     private final static LoginPage loginPage = page(LoginPage.class);
     protected final static MainPage mainpage = page(MainPage.class);
-    protected final static NewBoardPage newBoardPage = page(NewBoardPage.class);
     protected final static BoardPage boardPage = page(BoardPage.class);
-    protected final static BoardSettingsPage boardSettingsPage = page(BoardSettingsPage.class);
-    protected final static ClosingBoardPage closingBoardPage = page(ClosingBoardPage.class);
 
     @BeforeAll
     @Step("Setup GUI")
@@ -51,7 +48,12 @@ public class BaseTestGUI extends BaseTest {
 
     private static void setSelenideConfiguration() {
         Configuration.timeout = 10000;
-        Configuration.browser = Browsers.EDGE.getName();   // Chrome is set as default
+        Configuration.browser = TestConfiguration.browser;
+    }
+
+    // Needs Selenium grid configuration
+    private static void setRemoteHub() {
+        Configuration.remote = "http://localhost:4444/wd/hub";
     }
 
     protected static void goToApp() {

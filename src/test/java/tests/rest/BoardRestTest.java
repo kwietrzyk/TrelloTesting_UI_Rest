@@ -1,6 +1,7 @@
 package tests.rest;
 
 import helpers.RestHelper;
+import net.bytebuddy.utility.RandomString;
 import tests.base.BaseTest;
 import dto.boardDto.main.BoardDto;
 import factories.BoardQueryFactory;
@@ -13,15 +14,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardRestTest extends BaseTest {
 
+    // In this class REST requests are called directly by static methods of RestHelper
+    private String boardName = RandomString.make();
+    private String boardId;
+
     @Test
     @DisplayName("TC: Create new board by Name, verify and remove")
     @Tag("rest")
     public void shouldCreateNewBoardAndRemoveItByRestApi() {
         int initialBoardsAmount = getAmountOfCurrentBoards();
-        createNewBoardAndFetchId(MY_NEW_TABLE);
+        boardId = createNewBoardAndFetchId(boardName);
         assertTrue(getAmountOfCurrentBoards() == initialBoardsAmount + 1,
                 "Amount of boards did not increment after POST");
-        deleteAllBoardsWithName(MY_NEW_TABLE);
+        deleteBoard(boardId);
         assertEquals(getAmountOfCurrentBoards(), initialBoardsAmount,
                 "Amount of boards did not decrement after DELETE");
     }
@@ -62,7 +67,7 @@ public class BoardRestTest extends BaseTest {
     @DisplayName("TC: Update board name with passing DTO")
     @Tag("rest")
     public void shouldChangeBoardName() {
-        String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
+        boardId = createNewBoardAndFetchId(boardName);
         BoardDto boardDto = getBoardDto(boardId);
         String boardNewName = "New Name";
         boardDto.setName(boardNewName);
@@ -75,7 +80,7 @@ public class BoardRestTest extends BaseTest {
     @DisplayName("TC: Update board with query params map")
     @Tag("rest")
     public void shouldUpdateBoardWithQuery() {
-        String boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
+        boardId = createNewBoardAndFetchId(boardName);
         Map<String, String> queryMap = BoardQueryFactory.createPutQueryMap();
         updateBoard(boardId, queryMap);
         verifyBoardParamsAreSet(boardId, queryMap);

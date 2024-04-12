@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTest extends BaseTest {
 
+    // In this class actions are done on endpoint objects and verification is done by static methods from RestHelper
     // Lists created by default: "Do zrobienia", "W trakcie", "Zrobione"
 
     @Test
@@ -71,6 +72,4 @@ public class BoardTest extends BaseTest {
         board.updateBoard(newName);
         assertTrue(RestHelper.isBoardExisting(newName));
     }
-
-
 }

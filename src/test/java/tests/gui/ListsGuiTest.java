@@ -1,5 +1,6 @@
 package tests.gui;
 
+import net.bytebuddy.utility.RandomString;
 import tests.base.BaseTestGUI;
 import com.codeborne.selenide.SelenideElement;
 import enums.BoardListsNames;
@@ -15,11 +16,12 @@ import static helpers.RestHelper.*;
 
 public class ListsGuiTest extends BaseTestGUI {
 
+    private String boardName = RandomString.make();
     private String boardId;
 
     @BeforeEach
     public void createTestBoard() {
-        boardId = createNewBoardAndFetchId(MY_NEW_TABLE);
+        boardId = createNewBoardAndFetchId(boardName);
     }
 
     @AfterEach
@@ -29,12 +31,15 @@ public class ListsGuiTest extends BaseTestGUI {
 
     @Test
     @DisplayName("TC: Update lists names")
-    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
+    @Description("Board is created and verified by REST request")
     @Tag("gui")
     @Tag("list")
     public void shouldUpdateExistingBoard() {
-        changePolishNamesToEnglish();
-        addNewList(BoardListsNames.ONHOLD.getEnglishLabel());
+        mainpage.openBoard(boardName);
+        for (BoardListsNames name : BoardListsNames.getDefaultNames()){
+            boardPage.translateDefaultNameToEnglish(name);
+        }
+        boardPage.addNewList(BoardListsNames.ONHOLD.getEnglishLabel());
         assertThatBoardContainsEnglishListNames(boardId);
     }
 
@@ -47,37 +52,12 @@ public class ListsGuiTest extends BaseTestGUI {
 //        fillCurrentListsWithCards();
 //    }
 
+    // Test: moveListToDifferentPosition - drag & drop
+
     private void fillCurrentListsWithCards() {
         List<Object> allLists = getAllListsFromBoard(boardId).jsonPath().getList("");
         allLists.stream().forEach(System.out::println); // brac stad ID do znalezienia lokatora, np [data-list-id='660d57f18c23fe64f0fe962a'] [data-testid=list-add-card-button]
-        mainpage.myNewTableBoard.click();
-    }
-
-    @Step("Translate lists names to English")
-    private void changePolishNamesToEnglish() {
-        mainpage.myNewTableBoard.click();
-        changeListNameToEnglish(BoardListsNames.TODO);
-        changeListNameToEnglish(BoardListsNames.ONGOING);
-        changeListNameToEnglish(BoardListsNames.DONE);
-        sleep(1000);
-    }
-
-    @Step("Translate {name} to English")
-    private void changeListNameToEnglish(BoardListsNames name) {
-        String polishName = name.getPolishLabel();
-        String englishName = name.getEnglishLabel();
-
-        SelenideElement list = boardPage.findListByName(polishName);
-        list.shouldBe(visible).click();
-        SelenideElement textArea = boardPage.findTextAreaByName(polishName);
-        executeJavaScript("arguments[0].value = '';", textArea);
-        textArea.shouldBe(visible).setValue(englishName);
-    }
-
-    @Step("Add new list")
-    private void addNewList(String name) {
-        boardPage.addNewListButton.click();
-        boardPage.insertListName.setValue(name).pressEnter();
+        mainpage.findBoardWithName(boardName).click();
     }
 
     private void removeList(String name) {
@@ -96,10 +76,9 @@ public class ListsGuiTest extends BaseTestGUI {
     private void assertThatBoardContainsEnglishListNames(String boardId) {
         List<String> lists = getAllListsNames(boardId);
         SoftAssertions softAssert = new SoftAssertions();
-        softAssert.assertThat(lists.contains(BoardListsNames.TODO.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardListsNames.ONGOING.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardListsNames.DONE.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardListsNames.ONHOLD.getEnglishLabel()));
+        for (BoardListsNames name : BoardListsNames.values()) {
+            softAssert.assertThat(lists.contains(name.getEnglishLabel()));
+        }
         softAssert.assertAll();
     }
 }
