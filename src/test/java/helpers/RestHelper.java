@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import static org.hamcrest.Matchers.*;
 
-public class RestHelper {
+public final class RestHelper {
 
     private RestHelper() {
         throw new IllegalStateException("Instance is not allowed, static methods only");
@@ -97,6 +97,11 @@ public class RestHelper {
     @Step("Update board")
     public static void updateBoard(String boardId, Map<String, String> query) {
         API_CLIENT.putBoard(boardId, query).execute();
+    }
+
+    @Step("Update list field {fieldName}")
+    public static void updateListField(String listId, String fieldName, String newName) {
+        API_CLIENT.updateListField(listId, fieldName, newName).execute();
     }
 
     @Step("Deleting all boards")

@@ -2,7 +2,7 @@ package tests.rest.pojo;
 
 import endpointsObjects.Board;
 import factories.BoardFactory;
-import enums.BoardLists;
+import enums.BoardListsNames;
 import factories.BoardQueryFactory;
 import helpers.RestHelper;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ public class BoardTest extends BaseTest {
     @Tag("pojo")
     public void shouldRemoveSingleListFromBoard() {
         Board board = BoardFactory.createBoard();
-        board.removeLists(BoardLists.TODO.getPolishLabel());
+        board.removeLists(BoardListsNames.TODO.getPolishLabel());
         assertEquals(DEFAULT_LISTS_AMOUNT - 1, RestHelper.getAllListsNamesFromBoard(board.getBoardDto().getId()).size());
     }
 
@@ -45,7 +45,7 @@ public class BoardTest extends BaseTest {
     @Tag("pojo")
     public void shouldAddNewList() {
         Board board = BoardFactory.createBoard();
-        String newListName = BoardLists.ONHOLD.getPolishLabel();
+        String newListName = BoardListsNames.ONHOLD.getPolishLabel();
         board.createList(newListName);
         assertTrue(RestHelper.getAllListsNamesFromBoard(board.getBoardDto().getId()).contains(newListName));
     }

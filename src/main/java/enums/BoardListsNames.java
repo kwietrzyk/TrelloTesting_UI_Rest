@@ -1,6 +1,6 @@
 package enums;
 
-public enum BoardLists {
+public enum BoardListsNames {
 
     TODO("To do", "Do zrobienia"),      // default
     ONGOING("Ongoing", "W trakcie"),    // default
@@ -10,7 +10,7 @@ public enum BoardLists {
     private final String englishLabel;
     private final String polishLabel;
 
-    BoardLists(String englishLabel, String polishLabel) {
+    BoardListsNames(String englishLabel, String polishLabel) {
         this.englishLabel = englishLabel;
         this.polishLabel = polishLabel;
     }
@@ -22,4 +22,5 @@ public enum BoardLists {
     public String getPolishLabel() {
         return polishLabel;
     }
+
 }

@@ -30,23 +30,32 @@ public class BoardRestTest extends BaseTest {
     @DisplayName("TC: Create new board by queryMap, verify and remove")
     @Tag("rest")
     public void shouldCreateNewBoardByQueryMap() {
-        Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
-        String boardId = createNewBoardWithQueryMapAndFetchId(queryMap);
-        verifyBoardParamsAreSet(boardId, queryMap);
-        deleteBoard(boardId);
+        createBoardByQueryAndVerify();
+        assertEquals(1, RestHelper.getAllBoardsIds().size());
     }
 
     @Test
     @DisplayName("Create max amount of boards (10)")
     @Tag("rest")
     public void shouldCreateMaxAmountOfBoards() {
-        final int amountOfBoards = 10;
-        for (int i = 0; i < amountOfBoards; i++) {
-            Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
-            String boardId = createNewBoardWithQueryMapAndFetchId(queryMap);
-            verifyBoardParamsAreSet(boardId, queryMap);
+        final int maxAmountOfBoards = 10;
+        for (int i = 0; i < maxAmountOfBoards; i++) {
+            createBoardByQueryAndVerify();
         }
-        assertEquals(amountOfBoards, RestHelper.getAllBoardsIds().size());
+        assertEquals(maxAmountOfBoards, RestHelper.getAllBoardsIds().size());
+    }
+
+    @Test
+    @DisplayName("Create more than max amount of boards)")
+    @Tag("rest")
+    public void shouldNotCreateMoreThanMaxAmountOfBoards() {
+        final int maxAmountOfBoards = 10;
+        for (int i = 0; i < maxAmountOfBoards; i++) {
+            createBoardByQueryAndVerify();
+        }
+        String additionalBoardId = createNewBoardAndFetchId("Additional board");
+        assertNull(additionalBoardId);
+        assertEquals(maxAmountOfBoards, RestHelper.getAllBoardsIds().size());
     }
 
     @Test
@@ -80,5 +89,11 @@ public class BoardRestTest extends BaseTest {
     public void shouldRemoveAllBoards() {
         deleteAllBoards();
         assertTrue(getAllBoards().isEmpty());
+    }
+
+    private void createBoardByQueryAndVerify() {
+        Map<String, String> queryMap = BoardQueryFactory.createPostQueryMap();
+        String boardId = createNewBoardWithQueryMapAndFetchId(queryMap);
+        verifyBoardParamsAreSet(boardId, queryMap);
     }
 }

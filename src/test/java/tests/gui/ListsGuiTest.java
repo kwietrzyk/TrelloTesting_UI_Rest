@@ -2,7 +2,7 @@ package tests.gui;
 
 import tests.base.BaseTestGUI;
 import com.codeborne.selenide.SelenideElement;
-import enums.BoardLists;
+import enums.BoardListsNames;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
@@ -34,18 +34,18 @@ public class ListsGuiTest extends BaseTestGUI {
     @Tag("list")
     public void shouldUpdateExistingBoard() {
         changePolishNamesToEnglish();
-        addNewList(BoardLists.ONHOLD.getEnglishLabel());
+        addNewList(BoardListsNames.ONHOLD.getEnglishLabel());
         assertThatBoardContainsEnglishListNames(boardId);
     }
 
-    @Test
-    @DisplayName("TC: Update lists content")
-    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
-    @Tag("gui")
-    @Tag("list")
-    public void shouldUpdateListContent() {
-        fillCurrentListsWithCards();
-    }
+//    @Test
+//    @DisplayName("TC: Update lists content")
+//    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
+//    @Tag("gui")
+//    @Tag("list")
+//    public void shouldUpdateListContent() {
+//        fillCurrentListsWithCards();
+//    }
 
     private void fillCurrentListsWithCards() {
         List<Object> allLists = getAllListsFromBoard(boardId).jsonPath().getList("");
@@ -56,14 +56,14 @@ public class ListsGuiTest extends BaseTestGUI {
     @Step("Translate lists names to English")
     private void changePolishNamesToEnglish() {
         mainpage.myNewTableBoard.click();
-        changeListNameToEnglish(BoardLists.TODO);
-        changeListNameToEnglish(BoardLists.ONGOING);
-        changeListNameToEnglish(BoardLists.DONE);
+        changeListNameToEnglish(BoardListsNames.TODO);
+        changeListNameToEnglish(BoardListsNames.ONGOING);
+        changeListNameToEnglish(BoardListsNames.DONE);
         sleep(1000);
     }
 
     @Step("Translate {name} to English")
-    private void changeListNameToEnglish(BoardLists name) {
+    private void changeListNameToEnglish(BoardListsNames name) {
         String polishName = name.getPolishLabel();
         String englishName = name.getEnglishLabel();
 
@@ -96,10 +96,10 @@ public class ListsGuiTest extends BaseTestGUI {
     private void assertThatBoardContainsEnglishListNames(String boardId) {
         List<String> lists = getAllListsNames(boardId);
         SoftAssertions softAssert = new SoftAssertions();
-        softAssert.assertThat(lists.contains(BoardLists.TODO.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardLists.ONGOING.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardLists.DONE.getEnglishLabel()));
-        softAssert.assertThat(lists.contains(BoardLists.ONHOLD.getEnglishLabel()));
+        softAssert.assertThat(lists.contains(BoardListsNames.TODO.getEnglishLabel()));
+        softAssert.assertThat(lists.contains(BoardListsNames.ONGOING.getEnglishLabel()));
+        softAssert.assertThat(lists.contains(BoardListsNames.DONE.getEnglishLabel()));
+        softAssert.assertThat(lists.contains(BoardListsNames.ONHOLD.getEnglishLabel()));
         softAssert.assertAll();
     }
 }

@@ -59,6 +59,10 @@ public class ApiClient {
         return new MoveListToBoard(listId, dstBoardId, reqSpecBuilder.get());
     }
 
+    public UpdateListField updateListField(String listId, String fieldName, String newName) {
+        return new UpdateListField(listId, fieldName, newName, reqSpecBuilder.get());
+    }
+
 
     // MEMBER
     public GetBoardsThatMemberBelongsTo getAllBoards(String userName) {

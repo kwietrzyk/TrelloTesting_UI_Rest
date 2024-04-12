@@ -9,18 +9,17 @@ import GUI.pages.boardMenu.ClosingBoardPage;
 import GUI.pages.createNewBoard.NewBoardPage;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import configuration.TestConfiguration;
-import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import helpers.RestHelper;
 import org.junit.jupiter.api.BeforeEach;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.*;
 
 public class BaseTestGUI extends BaseTest {
     private final static WelcomePage welcomePage = page(WelcomePage.class);
@@ -34,24 +33,30 @@ public class BaseTestGUI extends BaseTest {
     @BeforeAll
     @Step("Setup GUI")
     protected static void setupGui() {
-        Configuration.timeout = 10000;
+        setSelenideConfiguration();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
-        goToApp();
+
     }
 
     @BeforeEach
-    @Description("Verify if any MyNewTable exists and remove it")
-    protected void cleanMainPage() throws InterruptedException {
+    @Step("Setup clear main page")
+    protected void setupClearMainPage() {
+        goToApp();
         RestHelper.deleteAllBoards();
         sleep(1000);
         refresh();
     }
 
+    private static void setSelenideConfiguration() {
+        Configuration.timeout = 10000;
+        Configuration.browser = Browsers.EDGE.getName();   // Chrome is set as default
+    }
+
     protected static void goToApp() {
         open(TestConfiguration.baseUrl);
-        getWebDriver().manage().window().maximize();
+        WebDriverRunner.getWebDriver().manage().window().maximize();
         loginToApp();
     }
 
@@ -71,8 +76,9 @@ public class BaseTestGUI extends BaseTest {
         loginPage.loginSubmitButton.click();
     }
 
-    @AfterAll
-    protected static void clearBrowser() {
+    @AfterEach
+    @Step("Teardown")
+    protected void clearBrowser() {
         clearBrowserCookies();
         clearBrowserLocalStorage();
         Selenide.closeWindow();
