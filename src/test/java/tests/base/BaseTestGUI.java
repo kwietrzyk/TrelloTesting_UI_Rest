@@ -1,22 +1,19 @@
 package tests.base;
 
-import GUI.pages.boardMenu.BoardSettingsPage;
-import GUI.pages.preconditions.LoginPage;
-import GUI.pages.main.MainPage;
-import GUI.pages.preconditions.WelcomePage;
-import GUI.pages.boardMenu.BoardPage;
-import GUI.pages.boardMenu.ClosingBoardPage;
-import GUI.pages.createNewBoard.NewBoardPage;
+import gui.pages.preconditions.LoginPage;
+import gui.pages.main.MainPage;
+import gui.pages.preconditions.WelcomePage;
+import gui.pages.boardMenu.BoardPage;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import configuration.TestConfiguration;
+import common.configuration.TestConfiguration;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import helpers.RestHelper;
+import rest.helpers.RestInternalHelper;
 import org.junit.jupiter.api.BeforeEach;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -37,18 +34,9 @@ public class BaseTestGUI extends BaseTest {
 
     }
 
-    @BeforeEach
-    @Step("Setup clear main page")
-    protected void setupClearMainPage() {
-        goToApp();
-        RestHelper.deleteAllBoards();
-        sleep(1000);
-        refresh();
-    }
-
     private static void setSelenideConfiguration() {
         Configuration.timeout = 10000;
-        Configuration.browser = TestConfiguration.browser;
+        Configuration.browser = TestConfiguration.BROWSER;
     }
 
     // Needs Selenium grid configuration
@@ -56,8 +44,10 @@ public class BaseTestGUI extends BaseTest {
         Configuration.remote = "http://localhost:4444/wd/hub";
     }
 
-    protected static void goToApp() {
-        open(TestConfiguration.baseUrl);
+    @BeforeEach
+    @Step("Setup clear main page")
+    public void goToApp() {
+        open(TestConfiguration.BASE_URL);
         WebDriverRunner.getWebDriver().manage().window().maximize();
         loginToApp();
     }
@@ -69,12 +59,12 @@ public class BaseTestGUI extends BaseTest {
     }
 
     private static void setUserEmail() {
-        loginPage.login.setValue(TestConfiguration.loginEmail);
+        loginPage.login.setValue(TestConfiguration.LOGIN_EMAIL);
         loginPage.loginSubmitButton.click();
     }
 
     private static void setUserPassword() {
-        loginPage.password.setValue(TestConfiguration.loginPassword);
+        loginPage.password.setValue(TestConfiguration.LOGIN_PASSWORD);
         loginPage.loginSubmitButton.click();
     }
 

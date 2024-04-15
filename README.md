@@ -1,5 +1,5 @@
 # Test framework for Trello application 
-- **GUI tests in _Selenide_ (Page Object Pattern, Allure reports)**
+- **gui tests in _Selenide_ (Page Object Pattern, Allure reports)**
 - **REST API tests in _Rest Assured_ (CRUD, Request Object Pattern, POJO, Allure reports)**
 
 ## How to use this repository:

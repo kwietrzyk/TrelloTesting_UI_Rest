@@ -1,20 +1,16 @@
 package tests.gui;
 
-import GUI.pages.boardMenu.BackgroundSettingsPage;
-import factories.BoardFactory;
-import helpers.RestHelper;
+import gui.pages.boardMenu.BackgroundSettingsPage;
 import net.bytebuddy.utility.RandomString;
+import rest.endpointsobjects.Board;
+import rest.helpers.BoardManager;
 import tests.base.BaseTestGUI;
-import enums.BoardBackgroundColors;
+import common.enums.BoardBackgroundColors;
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static helpers.RestHelper.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardGuiTest extends BaseTestGUI {
 
@@ -39,7 +35,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @Tag("gui")
     public void shouldRemoveExistingBoard() {
         String boardName = RandomString.make();
-        BoardFactory.createBoard(boardName);
+        BoardManager.createBoard(boardName);
         refresh();
         mainpage.openBoard(boardName)
                 .openBoardSettings()
@@ -56,7 +52,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @Tag("gui")
     public void shouldChangeBoardName() {
         String oldName = RandomString.make();
-        BoardFactory.createBoard(oldName);
+        BoardManager.createBoard(oldName);
         refresh();
         String newName = "New Name";
         mainpage.openBoard(oldName)
@@ -72,14 +68,14 @@ public class BoardGuiTest extends BaseTestGUI {
     @Description("Board is created and verified by REST request")
     @Tag("gui")
     public void shouldUpdateBoardBackgroundToImage() {
-        String boardName = RandomString.make();
-        String boardId = createNewBoardAndFetchId(boardName);
+        String boardName = "ImageTable";
+        Board board = BoardManager.createBoard(boardName);
         mainpage.openBoard(boardName)
                 .openBoardSettings()
                 .changeBackground()
                 .toImage()
                 .closeBackgroundSettingPage();
-        verifyImageIsSetAsBackground(boardId);
+        restHelper.verifyImageIsSetAsBackground(board);
     }
 
     @Test
@@ -87,14 +83,14 @@ public class BoardGuiTest extends BaseTestGUI {
     @Description("Board is created and verified by REST request")
     @Tag("gui")
     public void shouldUpdateBoardBackgroundToColor() {
-        String boardName = RandomString.make();
-        String boardId = createNewBoardAndFetchId(boardName);
+        String boardName = "ColorTable";
+        Board board = BoardManager.createBoard(boardName);
         BoardBackgroundColors backgroundColor = BoardBackgroundColors.getRandom();
         mainpage.openBoard(boardName)
                 .openBoardSettings()
                 .changeBackground()
                 .toColor(backgroundColor)
                 .closeBackgroundSettingPage();
-        verifyColorIsSetAsBackground(boardId, backgroundColor);
+        restHelper.verifyColorIsSetAsBackground(board, backgroundColor);
     }
 }
