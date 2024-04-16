@@ -54,7 +54,8 @@ public class BoardManager {
         }
 
         private static Board createBoard(Map<String, String> queryMap) {
-            BoardDto dto = restHelper.createNewBoardWithQueryMapAsDto(queryMap);
+            String boardId = restHelper.createNewBoardWithQueryMapAndFetchId(queryMap);
+            BoardDto dto = restHelper.getBoardDto(boardId);
             List<ListTrello> lists = getBoardLists(dto.getId());
             Board board = new Board(dto, lists);
             BoardManager.addBoard(board);

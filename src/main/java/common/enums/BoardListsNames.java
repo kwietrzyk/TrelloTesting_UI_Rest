@@ -2,6 +2,7 @@ package common.enums;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public enum BoardListsNames {
 
@@ -24,6 +25,10 @@ public enum BoardListsNames {
 
     public String getPolishLabel() {
         return polishLabel;
+    }
+
+    public static String getRandomDefaultName() {
+        return getDefaultNames().get(new Random().nextInt(3)).polishLabel;
     }
 
     public static List<BoardListsNames> getDefaultNames() {

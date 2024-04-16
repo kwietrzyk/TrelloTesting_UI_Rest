@@ -1,5 +1,6 @@
 package rest.endpointsobjects;
 
+import gui.dto.cardDto.CardDto;
 import gui.dto.listDto.ListDto;
 import common.enums.BoardListsNames;
 import lombok.Getter;
@@ -48,4 +49,9 @@ public class ListTrello extends Endpoint {
         restHelper.updateListField(listDto.getId(), fieldName, newName);
     }
 
+//    public void createCard(String cardName) {
+//        String cardId = restHelper.createNewCardAndFetchId(cardName);
+//        CardDto cardDto = restHelper.getCardDto(cardId);
+//        cards.add(new Card(cardDto, this));
+//    }
 }

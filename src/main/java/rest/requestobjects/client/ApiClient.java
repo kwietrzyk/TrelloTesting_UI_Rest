@@ -62,6 +62,10 @@ public class ApiClient {
         return new UpdateListField(listId, fieldName, newName, reqSpecBuilder.get());
     }
 
+    public GetAllCardsFromList getAllCardsFromList(String listId) {
+        return new GetAllCardsFromList(listId, reqSpecBuilder.get());
+    }
+
 
     // MEMBER
     public GetBoardsThatMemberBelongsTo getAllBoards(String userName) {

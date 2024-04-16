@@ -11,10 +11,13 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import common.configuration.TestConfiguration;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.qameta.allure.selenide.LogType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import rest.helpers.RestInternalHelper;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -25,18 +28,17 @@ public class BaseTestGUI extends BaseTest {
     protected final static BoardPage boardPage = page(BoardPage.class);
 
     @BeforeAll
-    @Step("Setup GUI")
     protected static void setupGui() {
         setSelenideConfiguration();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
+                .screenshots(false)
                 .savePageSource(true));
-
     }
 
     private static void setSelenideConfiguration() {
         Configuration.timeout = 10000;
         Configuration.browser = TestConfiguration.BROWSER;
+        Configuration.headless = true;
     }
 
     // Needs Selenium grid configuration

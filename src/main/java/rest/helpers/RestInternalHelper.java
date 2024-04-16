@@ -21,11 +21,6 @@ public final class RestInternalHelper extends RestHelper {
         return API_CLIENT.postNewBoard(queryMap).execute().jsonPath().get("id");
     }
 
-    @Step("Creating new board with queryMap")
-    public BoardDto createNewBoardWithQueryMapAsDto(Map<String, String> queryMap) {
-        return API_CLIENT.postNewBoard(queryMap).execute().then().extract().as(BoardDto.class);
-    }
-
     @Step("Create new list")
     public String createNewListAndFetchId(String name, String boardId) {
         return API_CLIENT.postNewListToBoard(name, boardId).execute().jsonPath().get("id");

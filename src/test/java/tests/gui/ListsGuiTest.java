@@ -2,6 +2,7 @@ package tests.gui;
 
 import net.bytebuddy.utility.RandomString;
 import rest.endpointsobjects.Board;
+import rest.endpointsobjects.ListTrello;
 import rest.helpers.BoardManager;
 import tests.base.BaseTestGUI;
 import common.enums.BoardListsNames;
@@ -10,16 +11,25 @@ import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 import org.assertj.core.api.SoftAssertions;
 
+import static com.codeborne.selenide.Condition.visible;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class ListsGuiTest extends BaseTestGUI {
 
-    private String boardName = RandomString.make();
+    private final static String BOARD_NAME = RandomString.make();
+    private final static String CARD_NAME = "TestCard";
     private Board board;
 
     @BeforeEach
     public void createTestBoard() {
-        board = BoardManager.createBoard(boardName);
+        board = BoardManager.createBoard(BOARD_NAME);
     }
 
     @Test
@@ -28,50 +38,85 @@ public class ListsGuiTest extends BaseTestGUI {
     @Tag("gui")
     @Tag("list")
     public void shouldUpdateExistingBoard() {
-        mainpage.openBoard(boardName);
+        mainpage.openBoard(BOARD_NAME);
         for (BoardListsNames name : BoardListsNames.getDefaultNames()){
             boardPage.translateDefaultNameToEnglish(name);
         }
         boardPage.addNewList(BoardListsNames.ONHOLD.getEnglishLabel());
-        assertThatBoardContainsEnglishListNames(board);
+        assertBoardContainsEnglishListNames(board);
+    }
+
+    @Test
+    @DisplayName("TC: Create card on list")
+    @Description("Board is created and verified by REST request")
+    @Tag("gui")
+    @Tag("list")
+    public void shouldCreateCardOnList() {
+        final String randomList = BoardListsNames.getRandomDefaultName();
+        mainpage.openBoard(BOARD_NAME)
+                .addCardToList(randomList)
+                .withCardName(CARD_NAME)
+                .findCard(CARD_NAME)
+                .shouldBe(visible);
+        assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(randomList)));
     }
 
 //    @Test
-//    @DisplayName("TC: Update lists content")
-//    @Description("Board is created, verified and deleted by REST actions to speed up stable actions")
+//    @DisplayName("TC: Move card to different list")
+//    @Description("Board is created and verified by REST request")
 //    @Tag("gui")
 //    @Tag("list")
-//    public void shouldUpdateListContent() {
-//        fillCurrentListsWithCards();
+//    public void shouldMoveCardToDifferentList() {
+//        createCardOnRandomList();
+//        String destinationList = BoardListsNames.getRandomDefaultName();
+//        mainpage.openBoard(BOARD_NAME)
+//                .moveCardToList(CARD_NAME, destinationList);
+//        System.out.println("HEJ");
+//        //assertTrue(isCardOnList(cardName, destinationList);
 //    }
 
-    // Test: moveListToDifferentPosition - drag & drop
-
-    private void fillCurrentListsWithCards() {
-        List<Object> allLists = restHelper.getAllListsFromBoard(board.getBoardDto().getId()).jsonPath().getList("");
-        allLists.stream().forEach(System.out::println); // brac stad ID do znalezienia lokatora, np [data-list-id='660d57f18c23fe64f0fe962a'] [data-testid=list-add-card-button]
-        mainpage.findBoardWithName(boardName).click();
+    @Test
+    @DisplayName("TC: Add cards to list")
+    @Description("Board is created and verified by REST request")
+    @Tag("gui")
+    @Tag("list")
+    public void shouldAddMultipleCardsToList() {
+        Map<String, Integer> expectedNumbers = createCardsExpectedNumbers();
+        mainpage.openBoard(BOARD_NAME);
+        for (Map.Entry<String, Integer> entry : expectedNumbers.entrySet()) {
+            boardPage.addMultipleCardsToList(entry.getKey(), entry.getValue());
+        }
+        assertCardsOnLists(expectedNumbers);
     }
 
-    private void removeList(String name) {
-
-    }
-
-    private void addNewCard(String name) {
-
-    }
-
-    private void removeCard(String name) {
-
+    private Map<String, Integer> createCardsExpectedNumbers() {
+        Map<String, Integer> expectedNumbers = new HashMap<>();
+        for (BoardListsNames name : BoardListsNames.getDefaultNames()) {
+            expectedNumbers.put(name.getPolishLabel(), new Random().nextInt(1, 8));
+        }
+        return expectedNumbers;
     }
 
     @Step("Verification that board {board.boardDto.name} contains English lists names")
-    private void assertThatBoardContainsEnglishListNames(Board board) {
-        List<String> lists = restHelper.getAllListsNames(board);
+    private void assertBoardContainsEnglishListNames(Board board) {
+        List<String> lists = restHelper.getAllListsNamesFromBoard(board);
         SoftAssertions softAssert = new SoftAssertions();
         for (BoardListsNames name : BoardListsNames.values()) {
             softAssert.assertThat(lists.contains(name.getEnglishLabel()));
         }
         softAssert.assertAll();
     }
+
+
+    private void assertCardsOnLists(Map<String, Integer> expectedNumbers) {
+        for (ListTrello list : board.getLists()) {
+            int numberOfCards = restHelper.getAllCardsFromList(list).jsonPath().getList("").size();
+            assertEquals(expectedNumbers.get(list.getListDto().getName()), numberOfCards);
+        }
+    }
+
+//    private void createCardOnRandomList() {
+//        String sourceList = BoardListsNames.getRandomDefaultName();
+//        board.getList(sourceList).addCard(CARD_NAME);
+//    }
 }

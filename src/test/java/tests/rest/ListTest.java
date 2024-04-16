@@ -27,8 +27,8 @@ public class ListTest extends BaseTest {
         Board board1 = BoardManager.createBoard("Board 1");
         Board board2 = BoardManager.createBoard("Board 2");
         String newListName = "My list";
-        ListTrello newList = board1.createList(newListName);
-        newList.moveToBoard(board2);
+        board1.createList(newListName);
+        board1.getList(newListName).moveToBoard(board2);
         List<String> board1Lists = restHelper.getAllListsNamesFromBoard(board1);
         List<String> board2Lists = restHelper.getAllListsNamesFromBoard(board2);
         assertTrue(board1Lists.size() == DEFAULT_LISTS_AMOUNT && board2Lists.contains(newListName));

@@ -16,12 +16,19 @@ public class Board extends Endpoint {
     private BoardDto boardDto;
     private final List<ListTrello> lists;
 
-    public ListTrello createList(String name) {
+    public void createList(String name) {
         String listId = restHelper.createNewListAndFetchId(name, boardDto.getId()); // creates list in app
         ListDto listDto = restHelper.getListDto(listId);
-        ListTrello list = new ListTrello(listDto);
-        lists.add(list);
-        return list;
+        lists.add(new ListTrello(listDto));
+    }
+
+    public ListTrello getList(String listName) {
+        for (ListTrello list : lists) {
+            if (listName.equals(list.getListDto().getName())) {
+                return list;
+            }
+        }
+        throw new IllegalArgumentException("No list with name " + listName);
     }
 
     public void removeAllLists() {

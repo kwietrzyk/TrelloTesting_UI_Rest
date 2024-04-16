@@ -47,11 +47,6 @@ public sealed class RestHelper permits RestInternalHelper {
         return API_CLIENT.getAllBoards(USERNAME).execute().jsonPath().getList("boards").size();
     }
 
-    @Step("Get all lists names from board {board.boardDto.name}")
-    public List<String> getAllListsNames(Board board) {
-        return getAllListsFromBoard(board.getBoardDto().getId()).jsonPath().getList("name");
-    }
-
     @Step("Get listDTO for list")
     public ListDto getListDto(String listId) {
         return getList(listId).then().extract().as(ListDto.class);
@@ -108,9 +103,8 @@ public sealed class RestHelper permits RestInternalHelper {
 
     @Step("Verification that additional board cannot be created")
     public void verifyExcessiveBoardFailure(String boardName) {
-        Response response = createNewBoardAndFetchId(boardName);
+        Response response = API_CLIENT.postNewBoard(boardName).execute();
         response.then()
-                .log().all()
                 .body("id", Matchers.nullValue())
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
@@ -128,8 +122,14 @@ public sealed class RestHelper permits RestInternalHelper {
         return idsList;
     }
 
-    @Step("Creating new board with name {boardName}")
-    private Response createNewBoardAndFetchId(String boardName) {
-        return API_CLIENT.postNewBoard(boardName).execute();
+    @Step("Verification if {cardName} is on list {list.listDto.name}")
+    public boolean isCardOnList(String cardName, ListTrello list) {
+        return getAllCardsFromList(list).jsonPath().getList("name").contains(cardName);
     }
+
+    @Step("Get all cards from list {list.listDto.name}")
+    public Response getAllCardsFromList(ListTrello list) {
+        return API_CLIENT.getAllCardsFromList(list.getListDto().getId()).execute();
+    }
+
 }

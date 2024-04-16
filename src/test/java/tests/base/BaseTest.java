@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import rest.helpers.RestHelper;
 import rest.helpers.RestInternalHelper;
 
-import org.junit.jupiter.api.AfterEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
