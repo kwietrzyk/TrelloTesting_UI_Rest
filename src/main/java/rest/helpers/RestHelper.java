@@ -3,6 +3,7 @@ package rest.helpers;
 import common.configuration.TestConfiguration;
 import common.enums.BoardBackgroundColors;
 import gui.dto.boardDto.main.BoardDto;
+import gui.dto.cardDto.CardDto;
 import gui.dto.listDto.ListDto;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -10,6 +11,7 @@ import org.apache.http.HttpStatus;
 import org.assertj.core.api.SoftAssertions;
 import org.hamcrest.Matchers;
 import rest.endpointsobjects.Board;
+import rest.endpointsobjects.Card;
 import rest.endpointsobjects.ListTrello;
 import rest.requestobjects.client.ApiClient;
 
@@ -52,7 +54,7 @@ public sealed class RestHelper permits RestInternalHelper {
         return getList(listId).then().extract().as(ListDto.class);
     }
 
-    @Step("Get list {list.listDto.name}")
+    @Step("Get list")
     public Response getList(String listId) {
         return API_CLIENT.getList(listId).execute();
     }
@@ -65,6 +67,17 @@ public sealed class RestHelper permits RestInternalHelper {
     @Step("Get all lists from board {boardId}")
     public Response getAllListsFromBoard(String boardId) {
         return API_CLIENT.getAllListsFromBoard(boardId).execute();
+    }
+
+    @Step("Get cardDTO for card")
+    public CardDto getCardDto(String cardId) {
+        return getCard(cardId).then()
+                .extract().as(CardDto.class);
+    }
+
+    @Step("Get card")
+    public Response getCard(String cardId) {
+        return API_CLIENT.getCard(cardId).execute();
     }
 
     @Step("Verification if {boardName} exists")

@@ -17,7 +17,7 @@ public class Board extends Endpoint {
     private final List<ListTrello> lists;
 
     public void createList(String name) {
-        String listId = restHelper.createNewListAndFetchId(name, boardDto.getId()); // creates list in app
+        String listId = restHelper.createNewListAndFetchId(name, boardDto.getId());
         ListDto listDto = restHelper.getListDto(listId);
         lists.add(new ListTrello(listDto));
     }

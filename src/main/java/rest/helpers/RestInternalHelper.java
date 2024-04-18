@@ -21,9 +21,19 @@ public final class RestInternalHelper extends RestHelper {
         return API_CLIENT.postNewBoard(queryMap).execute().jsonPath().get("id");
     }
 
-    @Step("Create new list")
+    @Step("Create new list: {name}")
     public String createNewListAndFetchId(String name, String boardId) {
         return API_CLIENT.postNewListToBoard(name, boardId).execute().jsonPath().get("id");
+    }
+
+    @Step("Create new card: {cardName} on list {list.listDto.name}")
+    public String createNewCardAndFetchId(String cardName, ListTrello list) {
+        return API_CLIENT.postNewCardToList(cardName, list.getListDto().getId()).execute().jsonPath().get("id");
+    }
+
+    @Step("Move list {listId} to board {dstBoardId}")
+    public Response moveList(String listId, String dstBoardId) {
+        return API_CLIENT.moveList(listId, dstBoardId).execute();
     }
 
     @Step("Update board")
@@ -70,8 +80,4 @@ public final class RestInternalHelper extends RestHelper {
         return API_CLIENT.deleteList(list.getListDto().getId()).execute();
     }
 
-    @Step("Move list {listId} to board {dstBoardId}")
-    public Response moveList(String listId, String dstBoardId) {
-        return API_CLIENT.moveList(listId, dstBoardId).execute();
-    }
 }

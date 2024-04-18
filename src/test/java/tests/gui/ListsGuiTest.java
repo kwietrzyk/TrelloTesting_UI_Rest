@@ -52,28 +52,27 @@ public class ListsGuiTest extends BaseTestGUI {
     @Tag("gui")
     @Tag("list")
     public void shouldCreateCardOnList() {
-        final String randomList = BoardListsNames.getRandomDefaultName();
+        final String list = BoardListsNames.getRandomDefaultName();
         mainpage.openBoard(BOARD_NAME)
-                .addCardToList(randomList)
+                .addCardToList(list)
                 .withCardName(CARD_NAME)
                 .findCard(CARD_NAME)
                 .shouldBe(visible);
-        assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(randomList)));
+        assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(list)));
     }
 
-//    @Test
-//    @DisplayName("TC: Move card to different list")
-//    @Description("Board is created and verified by REST request")
-//    @Tag("gui")
-//    @Tag("list")
-//    public void shouldMoveCardToDifferentList() {
-//        createCardOnRandomList();
-//        String destinationList = BoardListsNames.getRandomDefaultName();
-//        mainpage.openBoard(BOARD_NAME)
-//                .moveCardToList(CARD_NAME, destinationList);
-//        System.out.println("HEJ");
-//        //assertTrue(isCardOnList(cardName, destinationList);
-//    }
+    @Test
+    @DisplayName("TC: Move card to different list")
+    @Description("Board is created and verified by REST request")
+    @Tag("gui")
+    @Tag("list")
+    public void shouldMoveCardToDifferentList() {
+        createCardOnRandomList();
+        String destinationList = BoardListsNames.getRandomDefaultName();
+        mainpage.openBoard(BOARD_NAME)
+                .moveCardToList(CARD_NAME, destinationList);
+        assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(destinationList)));
+    }
 
     @Test
     @DisplayName("TC: Add cards to list")
@@ -115,8 +114,8 @@ public class ListsGuiTest extends BaseTestGUI {
         }
     }
 
-//    private void createCardOnRandomList() {
-//        String sourceList = BoardListsNames.getRandomDefaultName();
-//        board.getList(sourceList).addCard(CARD_NAME);
-//    }
+    private void createCardOnRandomList() {
+        String sourceList = BoardListsNames.getRandomDefaultName();
+        board.getList(sourceList).createCard(CARD_NAME);
+    }
 }

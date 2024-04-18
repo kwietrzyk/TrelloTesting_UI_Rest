@@ -49,9 +49,10 @@ public class ListTrello extends Endpoint {
         restHelper.updateListField(listDto.getId(), fieldName, newName);
     }
 
-//    public void createCard(String cardName) {
-//        String cardId = restHelper.createNewCardAndFetchId(cardName);
-//        CardDto cardDto = restHelper.getCardDto(cardId);
-//        cards.add(new Card(cardDto, this));
-//    }
+    public void createCard(String cardName) {
+        String cardId = restHelper.createNewCardAndFetchId(cardName, this);
+        System.out.println("dto");
+        CardDto cardDto = restHelper.getCardDto(cardId);
+        cards.add(new Card(cardDto, this));
+    }
 }
