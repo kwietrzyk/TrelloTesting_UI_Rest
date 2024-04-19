@@ -7,14 +7,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListDto {
-    private String id;
-    private String name;
-    private boolean closed;
-    private String color;
-    private String idBoard;
-    private int pos;
-    private boolean subscribed;
-    private String softLimit;
+    public String id;
+    public String name;
+    public boolean closed;
+    public String color;
+    public String idBoard;
+    public int pos;
+    public boolean subscribed;
+    public String softLimit;
 
     @Override
     public String toString() {

@@ -45,7 +45,7 @@ public class BoardTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Create max amount of boards (10)")
+    @DisplayName("TC: Create max amount of boards (10)")
     @Tag("rest")
     public void shouldCreateMaxAmountOfBoards() {
         final int maxAmountOfBoards = 10;
@@ -56,7 +56,7 @@ public class BoardTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Create more than max amount of boards")
+    @DisplayName("TC: Create more than max amount of boards")
     @Tag("rest")
     public void shouldNotCreateMoreThanMaxAmountOfBoards() {
         final int maxAmountOfBoards = 10;
@@ -68,7 +68,7 @@ public class BoardTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Update board")
+    @DisplayName("TC: Update board")
     @Tag("rest")
     public void shouldUpdateBoard() {
         Board board = BoardManager.createBoard();
@@ -78,7 +78,7 @@ public class BoardTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Update board name")
+    @DisplayName("TC: Update board name")
     @Tag("rest")
     public void shouldUpdateBoardName() {
         Board board = BoardManager.createBoard();

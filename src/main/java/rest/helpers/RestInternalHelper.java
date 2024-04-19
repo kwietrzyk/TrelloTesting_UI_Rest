@@ -4,6 +4,7 @@ import gui.dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import rest.endpointsobjects.Board;
+import rest.endpointsobjects.Card;
 import rest.endpointsobjects.ListTrello;
 
 import java.util.List;
@@ -31,9 +32,14 @@ public final class RestInternalHelper extends RestHelper {
         return API_CLIENT.postNewCardToList(cardName, list.getListDto().getId()).execute().jsonPath().get("id");
     }
 
-    @Step("Move list {listId} to board {dstBoardId}")
-    public Response moveList(String listId, String dstBoardId) {
-        return API_CLIENT.moveList(listId, dstBoardId).execute();
+    @Step("Move list {list.listDto.name} to board {dstBoard.boardDto.name}")
+    public Response moveList(ListTrello list, Board dstBoard) {
+        return API_CLIENT.moveList(list.getListDto().getId(), dstBoard.getBoardDto().getId()).execute();
+    }
+
+    @Step("Move card {card.cardDto.name} to list {dstList.listDto.name}")
+    public Response moveCard(Card card, ListTrello dstList) {
+        return API_CLIENT.moveCard(card.getCardDto().id, dstList.getListDto().getId()).execute();
     }
 
     @Step("Update board")
@@ -49,6 +55,16 @@ public final class RestInternalHelper extends RestHelper {
     @Step("Update list field {fieldName}")
     public void updateListField(String listId, String fieldName, String newName) {
         API_CLIENT.updateListField(listId, fieldName, newName).execute();
+    }
+
+    @Step("Update card {card.cardDto.name}")
+    public Response updateCard(Card card, Map<String, String> queryParams) {
+        return API_CLIENT.updateCard(card.getCardDto().id, queryParams).execute();
+    }
+
+    @Step("Adding comment to card {card.cardDto.name}")
+    public Response addCommentToCard(Card card, String comment) {
+        return API_CLIENT.addCommentToCard(card.getCardDto().id, comment).execute();
     }
 
     @Step("Deleting all boards")
@@ -79,5 +95,11 @@ public final class RestInternalHelper extends RestHelper {
     public Response deleteList(ListTrello list) {
         return API_CLIENT.deleteList(list.getListDto().getId()).execute();
     }
+
+    @Step("Delete card {card.cardDto.name}")
+    public Response deleteCard(Card card) {
+        return API_CLIENT.deleteCard(card.getCardDto().id).execute();
+    }
+
 
 }

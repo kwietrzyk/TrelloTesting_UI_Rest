@@ -1,5 +1,7 @@
 package tests.rest;
 
+import net.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.BeforeEach;
 import rest.endpointsobjects.Board;
 import rest.endpointsobjects.ListTrello;
 import common.enums.BoardListsNames;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import tests.base.BaseTest;
 
 import java.util.List;
+import java.util.Random;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,8 +22,16 @@ public class ListTest extends BaseTest {
 
     // In this class actions are done on endpoint objects and verification is done by restHelper methods
 
+    private Board board;
+
+    @BeforeEach
+    public void createTestBoard() {
+        final String boardName = RandomString.make();
+        board = BoardManager.createBoard(boardName);
+    }
+
     @Test
-    @DisplayName("Move list to another board")
+    @DisplayName("TC: Move list to another board")
     @Tag("rest")
     @Tag("list")
     public void shouldMoveListFromOneBoardToAnother() {
@@ -35,49 +46,60 @@ public class ListTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Translate default list names to english")
+    @DisplayName("TC: Translate default list names to english")
     @Tag("rest")
     @Tag("list")
     public void shouldChangeListsNames() {
-        Board board1 = BoardManager.createBoard("Board 1");
-        for (ListTrello list : board1.getLists()) {
+        for (ListTrello list : board.getLists()) {
             list.translateDefaultNameToEnglish();
         }
-        restHelper.getAllListsFromBoard(board1.getBoardDto().getId()).then()
+        restHelper.getAllListsFromBoard(board.getBoardDto().getId()).then()
                 .body("name", hasItem(BoardListsNames.TODO.getEnglishLabel()))
                 .body("name", hasItem(BoardListsNames.ONGOING.getEnglishLabel()))
                 .body("name", hasItem(BoardListsNames.DONE.getEnglishLabel()));
     }
 
     @Test
-    @DisplayName("Remove all lists from board")
+    @DisplayName("TC: Remove all lists from board")
     @Tag("rest")
     @Tag("list")
     public void shouldRemoveAllListsFromBoard() {
-        Board board = BoardManager.createBoard();
         board.removeAllLists();
         assertTrue(restHelper.getAllListsNamesFromBoard(board).isEmpty());
     }
 
     @Test
-    @DisplayName("Remove single list from board")
+    @DisplayName("TC: Remove single list from board")
     @Tag("rest")
     @Tag("list")
     public void shouldRemoveSingleListFromBoard() {
-        Board board = BoardManager.createBoard();
-        board.removeLists(BoardListsNames.TODO.getPolishLabel());
+        board.removeLists(BoardListsNames.getRandomDefaultName());
         assertEquals(DEFAULT_LISTS_AMOUNT - 1, restHelper.getAllListsNamesFromBoard(board).size());
     }
 
     @Test
-    @DisplayName("Add new list")
+    @DisplayName("TC: Add new list to board")
     @Tag("rest")
     @Tag("list")
     public void shouldAddNewList() {
-        Board board = BoardManager.createBoard();
         String newListName = BoardListsNames.ONHOLD.getPolishLabel();
         board.createList(newListName);
         assertTrue(restHelper.getAllListsNamesFromBoard(board).contains(newListName));
+    }
+
+    @Test
+    @DisplayName("TC: Create cards on default lists")
+    @Tag("rest")
+    @Tag("list")
+    public void shouldCreateCardsOnDefaultLists() {
+        int expectedNumberOfCards = new Random().nextInt(1, 10);
+        for (ListTrello list : board.getLists()) {
+            list.createMultipleCards(expectedNumberOfCards);
+        }
+        for (ListTrello list : board.getLists()) {
+            int cardsAmount = restHelper.getAllCardsFromList(list).jsonPath().getList("").size();
+            assertEquals(expectedNumberOfCards, cardsAmount, "Amount of cards is not as expected on list " + list.getListDto().getName());
+        }
     }
 
 }

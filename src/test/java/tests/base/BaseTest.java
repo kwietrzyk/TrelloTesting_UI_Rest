@@ -1,6 +1,7 @@
 package tests.base;
 
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import rest.helpers.RestHelper;
 import rest.helpers.RestInternalHelper;
@@ -12,13 +13,14 @@ public class BaseTest {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
     public static final int DEFAULT_LISTS_AMOUNT = 3;
-    public final RestHelper restHelper = new RestHelper();
+    protected final RestHelper restHelper = new RestHelper();
+    private final RestInternalHelper cleaningHelper = new RestInternalHelper();
 
-    @Step("Preconditions")
+    @Step("Workspace cleaning")
     @BeforeEach
     public void clean() {
-        LOGGER.info("Cleaning");
-        RestInternalHelper cleaningHelper = new RestInternalHelper();
+        LOGGER.info("Start of cleaning");
         cleaningHelper.deleteAllBoards();
+        LOGGER.info("End of cleaning");
     }
 }

@@ -34,6 +34,14 @@ public class CardDto {
     public Cover cover;
     public boolean isTemplate;
     public Object cardRole;
+
+    @Override
+    public String toString() {
+        return "CardDto{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
 
 class AttachmentsByType{

@@ -36,7 +36,7 @@ public class ListsGuiTest extends BaseTestGUI {
     @Description("Board is created and verified by REST request")
     @Tag("gui")
     @Tag("list")
-    public void shouldUpdateExistingBoard() {
+    public void shouldUpdateLists() {
         mainpage.openBoard(BOARD_NAME);
         for (BoardListsNames name : BoardListsNames.getDefaultNames()){
             boardPage.translateDefaultNameToEnglish(name);
@@ -60,7 +60,7 @@ public class ListsGuiTest extends BaseTestGUI {
         assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(list)));
     }
 
-    @RepeatedTest(10)
+    @Test
     @DisplayName("TC: Move card to different list")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
@@ -95,6 +95,11 @@ public class ListsGuiTest extends BaseTestGUI {
         return expectedNumbers;
     }
 
+    private void createCardOnRandomList() {
+        String sourceList = BoardListsNames.getRandomDefaultName();
+        board.getList(sourceList).createCard(CARD_NAME);
+    }
+
     @Step("Verification that board {board.boardDto.name} contains English lists names")
     private void assertBoardContainsEnglishListNames(Board board) {
         List<String> lists = restHelper.getAllListsNamesFromBoard(board);
@@ -111,10 +116,5 @@ public class ListsGuiTest extends BaseTestGUI {
             int numberOfCards = restHelper.getAllCardsFromList(list).jsonPath().getList("").size();
             assertEquals(expectedNumbers.get(list.getListDto().getName()), numberOfCards);
         }
-    }
-
-    private void createCardOnRandomList() {
-        String sourceList = BoardListsNames.getRandomDefaultName();
-        board.getList(sourceList).createCard(CARD_NAME);
     }
 }

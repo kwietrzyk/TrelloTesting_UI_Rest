@@ -4,10 +4,13 @@ import gui.dto.cardDto.CardDto;
 import gui.dto.listDto.ListDto;
 import common.enums.BoardListsNames;
 import lombok.Getter;
+import org.checkerframework.checker.units.qual.C;
 import rest.helpers.BoardManager;
 import rest.helpers.RestInternalHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @Getter
@@ -27,9 +30,9 @@ public class ListTrello extends Endpoint {
 
     public void moveToBoard(Board dstBoard) {
         parent.getLists().remove(this);
-        this.parent = dstBoard;
+        parent = dstBoard;
         dstBoard.getLists().add(this);
-        restHelper.moveList(this.listDto.getId(), parent.getBoardDto().getId());
+        restHelper.moveList(this, parent);
     }
 
     public void translateDefaultNameToEnglish() {
@@ -53,5 +56,49 @@ public class ListTrello extends Endpoint {
         String cardId = restHelper.createNewCardAndFetchId(cardName, this);
         CardDto cardDto = restHelper.getCardDto(cardId);
         cards.add(new Card(cardDto, this));
+    }
+
+    public void createMultipleCards(int expectedNumberOfCards) {
+        for (int i = 1; i <= expectedNumberOfCards; i++) {
+            String cardName = this.listDto.getName() + " card " + i;
+            createCard(cardName);
+        }
+    }
+
+    public void removeCards(String... cardNames) {
+        Iterator<Card> iterator = cards.iterator();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
+            if (Arrays.asList(cardNames).contains(card.getCardDto().name)) {
+                iterator.remove();
+                restHelper.deleteCard(card);
+            }
+        }
+    }
+
+    public void removeCard(Card card) {
+        cards.remove(card);
+        restHelper.deleteCard(card);
+    }
+
+    public List<String> getCardsNames() {
+        return cards.stream().map(n -> n.getCardDto().name).toList();
+    }
+
+    public Card getCard(String name) {
+        for (Card card : cards) {
+            if (name.equals(card.getCardDto().name)) {
+                return card;
+            }
+        }
+        throw new IllegalArgumentException("No card with name " + name);
+    }
+
+    public List<Card> getCards() {
+        return List.copyOf(cards);
+    }
+
+    void addCard(Card card) {
+        cards.add(card);
     }
 }

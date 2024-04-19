@@ -2,8 +2,7 @@ package rest.requestobjects.client;
 
 import rest.requestobjects.requests.BaseRequest;
 import rest.requestobjects.requests.board.*;
-import rest.requestobjects.requests.card.GetCard;
-import rest.requestobjects.requests.card.PostNewCardToList;
+import rest.requestobjects.requests.card.*;
 import rest.requestobjects.requests.list.*;
 import rest.requestobjects.requests.member.GetBoardsThatMemberBelongsTo;
 import gui.dto.boardDto.main.BoardDto;
@@ -78,6 +77,23 @@ public class ApiClient {
     public GetCard getCard(String cardId) {
         return new GetCard(cardId, reqSpecBuilder.get());
     }
+
+    public MoveCardToList moveCard(String cardId, String dstListId) {
+        return new MoveCardToList(cardId, dstListId, reqSpecBuilder.get());
+    }
+
+    public UpdateCard updateCard(String cardId, Map<String, String> queryParams) {
+        return new UpdateCard(cardId, queryParams, reqSpecBuilder.get());
+    }
+
+    public DeleteCard deleteCard(String cardId) {
+        return new DeleteCard(cardId, reqSpecBuilder.get());
+    }
+
+    public AddCommentToCard addCommentToCard(String cardId, String comment) {
+        return new AddCommentToCard(cardId, comment, reqSpecBuilder.get());
+    }
+
 
     // MEMBER
     public GetBoardsThatMemberBelongsTo getAllBoards(String userName) {
