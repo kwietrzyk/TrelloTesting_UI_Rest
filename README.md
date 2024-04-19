@@ -25,7 +25,7 @@
 - your test classes names should match one these patterns: `*Test`, `Test*`
 - all tests should have jUnit annotation `@Test` or `@RepeatedTest`
 - in the terminal run `mvn clean test`
-- if you want to run only tests with specific tag annotation run: `mvn clean test -Dgroups=tag1,tag2,tag3`
+- if you want to run only tests with specific tag annotation run: `mvn clean test "-Dgroups=tag1,tag2,tag3"`
 - you can mark every test with several tags and combine your set of running tests:  
   `mvn clean test -Dgroups=tag1 -DexcludedGroups=tag2`
 

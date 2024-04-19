@@ -46,6 +46,7 @@ public class BoardPage extends BasePage {
         return this;
     }
 
+    @Step("Translate lists names to English for list {name}")
     public BoardPage translateDefaultNameToEnglish(BoardListsNames name) {
         findListByName(name.getPolishLabel()).shouldBe(visible).click();
         SelenideElement textArea = findTextAreaByName(name.getPolishLabel());
@@ -61,6 +62,7 @@ public class BoardPage extends BasePage {
         return this;
     }
 
+    @Step("Add {numberOfCards} cards to list {listName}")
     public BoardPage addMultipleCardsToList(String listName, int numberOfCards) {
         addCardToList(listName);
         for (int i = 0; i < numberOfCards; i++) {
@@ -79,9 +81,10 @@ public class BoardPage extends BasePage {
     }
 
     public BoardPage moveCardToList(String cardName, String dstListName) {
-        SelenideElement card = findCard(cardName);
-        SelenideElement dstList = findListBlock(dstListName);
+        SelenideElement card = findCard(cardName).shouldBe(visible);
+        SelenideElement dstList = findListBlock(dstListName).shouldBe(visible);
         actions().dragAndDrop(card, dstList).perform();
+        sleep(500);
         return this;
     }
 

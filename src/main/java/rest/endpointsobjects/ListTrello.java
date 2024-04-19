@@ -51,7 +51,6 @@ public class ListTrello extends Endpoint {
 
     public void createCard(String cardName) {
         String cardId = restHelper.createNewCardAndFetchId(cardName, this);
-        System.out.println("dto");
         CardDto cardDto = restHelper.getCardDto(cardId);
         cards.add(new Card(cardDto, this));
     }

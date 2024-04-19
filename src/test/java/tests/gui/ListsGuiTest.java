@@ -12,7 +12,6 @@ import org.junit.jupiter.api.*;
 import org.assertj.core.api.SoftAssertions;
 
 import static com.codeborne.selenide.Condition.visible;
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -61,7 +60,7 @@ public class ListsGuiTest extends BaseTestGUI {
         assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(list)));
     }
 
-    @Test
+    @RepeatedTest(10)
     @DisplayName("TC: Move card to different list")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
@@ -80,7 +79,7 @@ public class ListsGuiTest extends BaseTestGUI {
     @Tag("gui")
     @Tag("list")
     public void shouldAddMultipleCardsToList() {
-        Map<String, Integer> expectedNumbers = createCardsExpectedNumbers();
+        Map<String, Integer> expectedNumbers = createMapOfCardsOnDefaultLists();
         mainpage.openBoard(BOARD_NAME);
         for (Map.Entry<String, Integer> entry : expectedNumbers.entrySet()) {
             boardPage.addMultipleCardsToList(entry.getKey(), entry.getValue());
@@ -88,7 +87,7 @@ public class ListsGuiTest extends BaseTestGUI {
         assertCardsOnLists(expectedNumbers);
     }
 
-    private Map<String, Integer> createCardsExpectedNumbers() {
+    private Map<String, Integer> createMapOfCardsOnDefaultLists() {
         Map<String, Integer> expectedNumbers = new HashMap<>();
         for (BoardListsNames name : BoardListsNames.getDefaultNames()) {
             expectedNumbers.put(name.getPolishLabel(), new Random().nextInt(1, 8));
@@ -106,7 +105,7 @@ public class ListsGuiTest extends BaseTestGUI {
         softAssert.assertAll();
     }
 
-
+    @Step("Verification that expected number of cards are on the lists")
     private void assertCardsOnLists(Map<String, Integer> expectedNumbers) {
         for (ListTrello list : board.getLists()) {
             int numberOfCards = restHelper.getAllCardsFromList(list).jsonPath().getList("").size();
