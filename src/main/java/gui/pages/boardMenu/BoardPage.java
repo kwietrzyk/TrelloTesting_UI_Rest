@@ -75,11 +75,13 @@ public class BoardPage extends BasePage {
         return this;
     }
 
+    @Step("Add card to list {listName}")
     public ListPage addCardToList(String listName) {
         SelenideElement listBlock = findListBlock(listName);
         return page(ListPage.class).addCard(listBlock);
     }
 
+    @Step("Move card {cardName} to list {dstListName}")
     public BoardPage moveCardToList(String cardName, String dstListName) {
         SelenideElement card = findCard(cardName).shouldBe(visible);
         SelenideElement dstList = findListBlock(dstListName).shouldBe(visible);

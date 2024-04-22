@@ -23,7 +23,7 @@ public class Board extends Endpoint {
     }
 
     public ListTrello getList(String listName) {
-        for (ListTrello list : lists) {
+        for (final ListTrello list : lists) {
             if (listName.equals(list.getListDto().getName())) {
                 return list;
             }

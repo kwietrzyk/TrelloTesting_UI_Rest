@@ -2,7 +2,8 @@ package gui.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import gui.pages.boardMenu.BoardPage;
-import gui.pages.main.BasePage;;
+import gui.pages.main.BasePage;
+import io.qameta.allure.Step;;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
