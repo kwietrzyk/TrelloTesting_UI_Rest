@@ -38,7 +38,7 @@ public class BaseTestGUI extends BaseTest {
     private static void setSelenideConfiguration() {
         Configuration.timeout = 10000;
         Configuration.browser = TestConfiguration.BROWSER;
-        Configuration.headless = true;
+        //Configuration.headless = true;
     }
 
     // Needs Selenium grid configuration

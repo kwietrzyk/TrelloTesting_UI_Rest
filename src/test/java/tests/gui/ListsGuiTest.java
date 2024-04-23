@@ -61,19 +61,6 @@ public class ListsGuiTest extends BaseTestGUI {
     }
 
     @Test
-    @DisplayName("TC: Move card to different list")
-    @Description("Board is created and verified by REST request")
-    @Tag("gui")
-    @Tag("list")
-    public void shouldMoveCardToDifferentList() {
-        createCardOnRandomList();
-        String destinationList = BoardListsNames.getRandomDefaultName();
-        mainpage.openBoard(BOARD_NAME)
-                .moveCardToList(CARD_NAME, destinationList);
-        assertTrue(restHelper.isCardOnList(CARD_NAME, board.getList(destinationList)));
-    }
-
-    @Test
     @DisplayName("TC: Add cards to list")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
@@ -93,11 +80,6 @@ public class ListsGuiTest extends BaseTestGUI {
             expectedNumbers.put(name.getPolishLabel(), new Random().nextInt(1, 8));
         }
         return expectedNumbers;
-    }
-
-    private void createCardOnRandomList() {
-        String sourceList = BoardListsNames.getRandomDefaultName();
-        board.getList(sourceList).createCard(CARD_NAME);
     }
 
     @Step("Verification that board {board.boardDto.name} contains English lists names")

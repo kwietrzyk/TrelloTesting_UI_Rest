@@ -2,6 +2,7 @@ package gui.pages.boardMenu;
 
 import com.codeborne.selenide.selector.ByText;
 import com.github.javafaker.Faker;
+import gui.pages.CardPage;
 import gui.pages.ListPage;
 import gui.pages.main.BasePage;
 import com.codeborne.selenide.SelenideElement;
@@ -90,6 +91,12 @@ public class BoardPage extends BasePage {
         return this;
     }
 
+    @Step("Go to card")
+    public CardPage goToCard(String name) {
+        findCard(name).shouldBe(visible).click();
+        return page(CardPage.class);
+    }
+
     public SelenideElement findCard(String cardName) {
         return $(byText(cardName));
     }
@@ -97,4 +104,7 @@ public class BoardPage extends BasePage {
     private SelenideElement findListBlock(String listName) {
         return $(byText(listName)).parent().parent().parent();
     }
+
+
+
 }
