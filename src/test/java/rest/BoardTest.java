@@ -1,4 +1,4 @@
-package tests.rest;
+package rest;
 
 import rest.dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
@@ -9,7 +9,7 @@ import rest.helpers.BoardManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import tests.base.BaseTest;
+import base.BaseTest;
 
 import java.util.Map;
 

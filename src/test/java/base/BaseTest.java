@@ -1,7 +1,6 @@
-package tests.base;
+package base;
 
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import rest.helpers.RestHelper;
 import rest.helpers.RestInternalHelper;

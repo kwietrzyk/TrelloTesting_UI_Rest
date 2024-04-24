@@ -1,4 +1,4 @@
-package tests.gui;
+package gui;
 
 import common.enums.BoardListsNames;
 import io.qameta.allure.Description;
@@ -11,7 +11,7 @@ import rest.endpointsobjects.Board;
 import rest.endpointsobjects.Card;
 import rest.endpointsobjects.ListTrello;
 import rest.helpers.BoardManager;
-import tests.base.BaseTestGUI;
+import base.BaseTestGUI;
 
 import java.util.List;
 

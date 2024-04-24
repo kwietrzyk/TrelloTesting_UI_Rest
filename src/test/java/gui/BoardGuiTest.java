@@ -1,10 +1,10 @@
-package tests.gui;
+package gui;
 
 import gui.pages.boardMenu.BackgroundSettingsPage;
 import net.bytebuddy.utility.RandomString;
 import rest.endpointsobjects.Board;
 import rest.helpers.BoardManager;
-import tests.base.BaseTestGUI;
+import base.BaseTestGUI;
 import common.enums.BoardBackgroundColors;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.*;

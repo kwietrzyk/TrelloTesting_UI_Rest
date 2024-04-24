@@ -1,10 +1,10 @@
-package tests.gui;
+package gui;
 
 import net.bytebuddy.utility.RandomString;
 import rest.endpointsobjects.Board;
 import rest.endpointsobjects.ListTrello;
 import rest.helpers.BoardManager;
-import tests.base.BaseTestGUI;
+import base.BaseTestGUI;
 import common.enums.BoardListsNames;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;

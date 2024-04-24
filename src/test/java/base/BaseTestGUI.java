@@ -1,4 +1,4 @@
-package tests.base;
+package base;
 
 import gui.pages.preconditions.LoginPage;
 import gui.pages.main.MainPage;
@@ -11,13 +11,9 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import common.configuration.TestConfiguration;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
-import io.qameta.allure.selenide.LogType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import rest.helpers.RestInternalHelper;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.*;
 

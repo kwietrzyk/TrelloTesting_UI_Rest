@@ -1,17 +1,15 @@
-package tests.rest;
+package rest;
 
 import common.enums.BoardListsNames;
 import net.bytebuddy.utility.RandomString;
 import org.assertj.core.api.SoftAssertions;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 import rest.endpointsobjects.Board;
 import rest.endpointsobjects.Card;
 import rest.endpointsobjects.ListTrello;
 import rest.helpers.BoardManager;
-import tests.base.BaseTest;
+import base.BaseTest;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
