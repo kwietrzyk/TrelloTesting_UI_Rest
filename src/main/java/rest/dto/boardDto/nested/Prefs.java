@@ -1,8 +1,9 @@
-package gui.dto.boardDto.nested;
+package rest.dto.boardDto.nested;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Prefs {
+public class Prefs implements Serializable {
     public String permissionLevel;
     public boolean hideVotes;
     public String voting;

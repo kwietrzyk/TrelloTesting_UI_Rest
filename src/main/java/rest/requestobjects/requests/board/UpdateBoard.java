@@ -2,7 +2,7 @@ package rest.requestobjects.requests.board;
 
 import io.restassured.RestAssured;
 import rest.requestobjects.requests.BaseRequest;
-import gui.dto.boardDto.main.BoardDto;
+import rest.dto.boardDto.main.BoardDto;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 

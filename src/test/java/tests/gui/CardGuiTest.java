@@ -2,9 +2,7 @@ package tests.gui;
 
 import common.enums.BoardListsNames;
 import io.qameta.allure.Description;
-import io.restassured.response.Response;
 import net.bytebuddy.utility.RandomString;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -36,19 +34,19 @@ public class CardGuiTest extends BaseTestGUI {
     @BeforeEach
     public void createTestBoard() {
         board = BoardManager.createBoard(BOARD_NAME);
-        toDoList = board.getList(BoardListsNames.TODO.getPolishLabel());
-        ongoingList = board.getList(BoardListsNames.ONGOING.getPolishLabel());
-        doneList = board.getList(BoardListsNames.DONE.getPolishLabel());
         for (ListTrello list : board.getLists()) {
             list.createMultipleCards(numberOfDefaultCards);
         }
+        toDoList = board.getList(BoardListsNames.TODO.getPolishLabel());
+        ongoingList = board.getList(BoardListsNames.ONGOING.getPolishLabel());
+        doneList = board.getList(BoardListsNames.DONE.getPolishLabel());
     }
 
     @Test
     @DisplayName("TC: Move card to different list")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
-    @Tag("list")
+    @Tag("card")
     public void shouldMoveCardToDifferentList() {
         List<String> toDoCards = toDoList.getCardsNames();
         String destinationList = ongoingList.getListDto().name;

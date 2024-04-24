@@ -1,10 +1,8 @@
 package rest.endpointsobjects;
 
-import com.github.javafaker.Faker;
-import io.restassured.response.Response;
 import rest.helpers.RestInternalHelper;
 
+// In derived classes: Methods which returns something should return deep copy of object
 public abstract class Endpoint {
-
     RestInternalHelper restHelper = new RestInternalHelper();
 }

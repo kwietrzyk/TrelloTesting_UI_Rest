@@ -1,12 +1,14 @@
-package gui.dto.listDto;
+package rest.dto.listDto;
 
 import lombok.*;
+
+import java.io.Serializable;
 
 @Data
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListDto {
+public class ListDto implements Serializable {
     public String id;
     public String name;
     public boolean closed;

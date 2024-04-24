@@ -1,7 +1,7 @@
 package rest.helpers;
 
-import gui.dto.boardDto.main.BoardDto;
-import gui.dto.listDto.ListDto;
+import rest.dto.boardDto.main.BoardDto;
+import rest.dto.listDto.ListDto;
 import net.bytebuddy.utility.RandomString;
 import rest.endpointsobjects.Board;
 import rest.endpointsobjects.ListTrello;
@@ -56,17 +56,11 @@ public class BoardManager {
         private static Board createBoard(Map<String, String> queryMap) {
             String boardId = restHelper.createNewBoardWithQueryMapAndFetchId(queryMap);
             BoardDto dto = restHelper.getBoardDto(boardId);
-            List<ListTrello> lists = getBoardLists(dto.getId());
-            Board board = new Board(dto, lists);
+            Board board = new Board(dto);
             BoardManager.addBoard(board);
             return board;
         }
 
-        private static List<ListTrello> getBoardLists(String boardId) {
-            List<ListTrello> boardLists = new ArrayList<>();
-            List<ListDto> listsDto = restHelper.getAllListsFromBoard(boardId).jsonPath().getList("$", ListDto.class);
-            listsDto.forEach(dto -> boardLists.add(new ListTrello(dto)));
-            return boardLists;
-        }
+
     }
 }

@@ -1,6 +1,8 @@
-package gui.dto.boardDto.nested;
+package rest.dto.boardDto.nested;
 
-public class LabelNames {
+import java.io.Serializable;
+
+public class LabelNames implements Serializable {
     public String green;
     public String yellow;
     public String orange;

@@ -19,6 +19,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @Test
     @DisplayName("TC: Create new board")
     @Tag("gui")
+    @Tag("board")
     public void shouldCreateNewBoard() {
         String newBoardName = RandomString.make();
         mainpage.createNewBoard()
@@ -33,6 +34,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @DisplayName("TC: Remove existing board")
     @Description("Precondition prepared by REST request (creating board)")
     @Tag("gui")
+    @Tag("board")
     public void shouldRemoveExistingBoard() {
         String boardName = RandomString.make();
         BoardManager.createBoard(boardName);
@@ -50,6 +52,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @DisplayName("TC: Change board name")
     @Description("Precondition prepared by REST request (creating board)")
     @Tag("gui")
+    @Tag("board")
     public void shouldChangeBoardName() {
         String oldName = RandomString.make();
         BoardManager.createBoard(oldName);
@@ -67,6 +70,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @DisplayName("TC: Update board background to image")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
+    @Tag("board")
     public void shouldUpdateBoardBackgroundToImage() {
         String boardName = "ImageTable";
         Board board = BoardManager.createBoard(boardName);
@@ -82,6 +86,7 @@ public class BoardGuiTest extends BaseTestGUI {
     @DisplayName("TC: Update board background to color")
     @Description("Board is created and verified by REST request")
     @Tag("gui")
+    @Tag("board")
     public void shouldUpdateBoardBackgroundToColor() {
         String boardName = "ColorTable";
         Board board = BoardManager.createBoard(boardName);

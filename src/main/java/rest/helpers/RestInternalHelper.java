@@ -1,6 +1,6 @@
 package rest.helpers;
 
-import gui.dto.boardDto.main.BoardDto;
+import rest.dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import rest.endpointsobjects.Board;

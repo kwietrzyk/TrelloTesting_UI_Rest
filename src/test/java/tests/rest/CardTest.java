@@ -33,12 +33,12 @@ public class CardTest extends BaseTest {
     public void createTestBoard() {
         final String boardName = RandomString.make();
         board = BoardManager.createBoard(boardName);
-        toDoList = board.getList(BoardListsNames.TODO.getPolishLabel());
-        ongoingList = board.getList(BoardListsNames.ONGOING.getPolishLabel());
-        doneList = board.getList(BoardListsNames.DONE.getPolishLabel());
         for (ListTrello list : board.getLists()) {
             list.createMultipleCards(numberOfDefaultCards);
         }
+        toDoList = board.getList(BoardListsNames.TODO.getPolishLabel());
+        ongoingList = board.getList(BoardListsNames.ONGOING.getPolishLabel());
+        doneList = board.getList(BoardListsNames.DONE.getPolishLabel());
     }
 
     @Test

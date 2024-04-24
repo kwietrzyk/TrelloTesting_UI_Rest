@@ -1,9 +1,7 @@
 package gui.pages.boardMenu;
 
-import com.codeborne.selenide.selector.ByText;
-import com.github.javafaker.Faker;
-import gui.pages.CardPage;
-import gui.pages.ListPage;
+import gui.pages.card.CardPage;
+import gui.pages.list.ListPage;
 import gui.pages.main.BasePage;
 import com.codeborne.selenide.SelenideElement;
 import common.enums.BoardListsNames;

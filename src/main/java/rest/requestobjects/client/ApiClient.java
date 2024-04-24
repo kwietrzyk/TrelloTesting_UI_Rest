@@ -1,11 +1,10 @@
 package rest.requestobjects.client;
 
-import rest.requestobjects.requests.BaseRequest;
 import rest.requestobjects.requests.board.*;
 import rest.requestobjects.requests.card.*;
 import rest.requestobjects.requests.list.*;
 import rest.requestobjects.requests.member.GetBoardsThatMemberBelongsTo;
-import gui.dto.boardDto.main.BoardDto;
+import rest.dto.boardDto.main.BoardDto;
 import io.restassured.builder.RequestSpecBuilder;
 
 import java.util.Map;

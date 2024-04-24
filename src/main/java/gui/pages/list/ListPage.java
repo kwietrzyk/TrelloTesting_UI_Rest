@@ -1,4 +1,4 @@
-package gui.pages;
+package gui.pages.list;
 
 import com.codeborne.selenide.SelenideElement;
 import gui.pages.boardMenu.BoardPage;

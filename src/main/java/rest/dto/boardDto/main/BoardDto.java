@@ -1,15 +1,17 @@
-package gui.dto.boardDto.main;
+package rest.dto.boardDto.main;
 
-import gui.dto.boardDto.nested.LabelNames;
-import gui.dto.boardDto.nested.Prefs;
+import rest.dto.boardDto.nested.LabelNames;
+import rest.dto.boardDto.nested.Prefs;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Builder
 @Data
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardDto {
+public class BoardDto implements Serializable {
     @Override
     public String toString() {
         return "BoardDto{" +

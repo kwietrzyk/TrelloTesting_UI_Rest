@@ -1,20 +1,29 @@
 package rest.endpointsobjects;
 
-import gui.dto.boardDto.main.BoardDto;
-import gui.dto.listDto.ListDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import org.apache.commons.lang3.SerializationUtils;
+import rest.dto.boardDto.main.BoardDto;
+import rest.dto.listDto.ListDto;
 
+import java.io.Serializable;
 import java.util.*;
 
-@Builder
-@Getter
-@AllArgsConstructor
-public class Board extends Endpoint {
+public class Board extends Endpoint implements Serializable {
 
     private BoardDto boardDto;
-    private final List<ListTrello> lists;
+    final List<ListTrello> lists = new ArrayList<>(); // must be accessible from ListTrello class for move() method
+
+    public BoardDto getBoardDto() {
+        return SerializationUtils.clone(boardDto);
+    }
+
+    public List<ListTrello> getLists() {
+        return List.copyOf(lists);
+    }
+
+    public Board(BoardDto boardDto) {
+        this.boardDto = boardDto;
+        assignBoardLists();
+    }
 
     public void createList(String name) {
         String listId = restHelper.createNewListAndFetchId(name, boardDto.getId());
@@ -23,9 +32,9 @@ public class Board extends Endpoint {
     }
 
     public ListTrello getList(String listName) {
-        for (final ListTrello list : lists) {
+        for (ListTrello list : lists) {
             if (listName.equals(list.getListDto().getName())) {
-                return list;
+                return SerializationUtils.clone(list);
             }
         }
         throw new IllegalArgumentException("No list with name " + listName);
@@ -57,15 +66,11 @@ public class Board extends Endpoint {
     }
 
     public void updateBoard(BoardDto dto) {
-        restHelper.updateBoard(boardDto);
+        restHelper.updateBoard(dto);
     }
 
-    private ListTrello getListByName(String listName) {
-        for (ListTrello list : lists) {
-            if (listName.equals(list.getListDto().getName())) {
-                return list;
-            }
-        }
-        throw new IllegalArgumentException(listName + " not found in board " + boardDto.getName());
+    private void assignBoardLists() {
+        List<ListDto> listsDto = restHelper.getAllListsFromBoard(boardDto.getId()).jsonPath().getList("$", ListDto.class);
+        listsDto.forEach(dto -> lists.add(new ListTrello(dto)));
     }
 }

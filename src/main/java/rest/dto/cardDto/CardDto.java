@@ -1,8 +1,9 @@
-package gui.dto.cardDto;
+package rest.dto.cardDto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardDto {
+public class CardDto implements Serializable {
     public String id;
     public Badges badges;
     public ArrayList<Object> checkItemStates;
@@ -44,11 +45,11 @@ public class CardDto {
     }
 }
 
-class AttachmentsByType{
+class AttachmentsByType implements Serializable {
     public Trello trello;
 }
 
-class Badges{
+class Badges implements Serializable {
     public AttachmentsByType attachmentsByType;
     public boolean location;
     public int votes;
@@ -66,7 +67,7 @@ class Badges{
     public Object start;
 }
 
-class Cover {
+class Cover implements Serializable {
     public Object idAttachment;
     public Object color;
     public Object idUploadedBackground;
@@ -75,14 +76,14 @@ class Cover {
     public Object idPlugin;
 }
 
-class DescData{
+class DescData implements Serializable {
     public Emoji emoji;
 }
 
-class Emoji{
+class Emoji implements Serializable {
 }
 
-class Trello {
+class Trello implements Serializable {
     public int board;
     public int card;
 }

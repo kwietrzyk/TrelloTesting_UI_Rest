@@ -1,11 +1,9 @@
 package tests.rest;
 
-import gui.dto.boardDto.main.BoardDto;
+import rest.dto.boardDto.main.BoardDto;
 import io.qameta.allure.Step;
 import net.bytebuddy.utility.RandomString;
-import org.junit.jupiter.api.Disabled;
 import rest.endpointsobjects.Board;
-import common.enums.BoardListsNames;
 import rest.factories.BoardQueryFactory;
 import rest.helpers.BoardManager;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +25,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Create new board by Name, verify and remove")
     @Tag("rest")
+    @Tag("board")
     public void shouldCreateNewBoardAndRemoveItByRestApi() {
         int initialBoardsAmount = restHelper.getAmountOfCurrentBoards();
         Board board = BoardManager.createBoard(boardName);
@@ -39,6 +38,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Create new board by queryMap, verify and remove")
     @Tag("rest")
+    @Tag("board")
     public void shouldCreateNewBoardByQueryMap() {
         createBoardByQueryAndVerify();
         assertEquals(1, restHelper.getAllBoardsIds().size());
@@ -47,6 +47,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Create max amount of boards (10)")
     @Tag("rest")
+    @Tag("board")
     public void shouldCreateMaxAmountOfBoards() {
         final int maxAmountOfBoards = 10;
         for (int i = 0; i < maxAmountOfBoards; i++) {
@@ -58,6 +59,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Create more than max amount of boards")
     @Tag("rest")
+    @Tag("board")
     public void shouldNotCreateMoreThanMaxAmountOfBoards() {
         final int maxAmountOfBoards = 10;
         for (int i = 0; i < maxAmountOfBoards; i++) {
@@ -70,6 +72,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Update board")
     @Tag("rest")
+    @Tag("board")
     public void shouldUpdateBoard() {
         Board board = BoardManager.createBoard();
         Map<String, String> queryMap = BoardQueryFactory.createPutQueryMap();
@@ -80,6 +83,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Update board name")
     @Tag("rest")
+    @Tag("board")
     public void shouldUpdateBoardName() {
         Board board = BoardManager.createBoard();
         String newName = "New name";
@@ -90,6 +94,7 @@ public class BoardTest extends BaseTest {
     @Test
     @DisplayName("TC: Update board name with passing DTO")
     @Tag("rest")
+    @Tag("board")
     public void shouldChangeBoardName() {
         Board board = BoardManager.createBoard(boardName);
         BoardDto boardDto = board.getBoardDto();
